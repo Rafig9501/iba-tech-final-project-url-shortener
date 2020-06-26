@@ -1,30 +1,41 @@
 package com.stepproject.ibatechurlshortener.model;
 
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity(name = "url")
 @Getter
+@Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Url extends BaseEntity {
 
-    @Column(name = "shortened_url")
+    @NonNull
+    @Column(name = "shortened_url", unique = true)
     private String shortcut;
 
+    @NonNull
     @Column(name = "full_url")
     private String full;
 
+    @NonNull
     @Column(name = "count")
     private Long count;
 
+    @NonNull
     @Column(name = "creation_date")
-    private SimpleDateFormat date;
+    private LocalDateTime date;
 
+    @NonNull
     @ManyToMany(mappedBy = "urls")
+    @JsonBackReference
     private Set<User> users;
 }
