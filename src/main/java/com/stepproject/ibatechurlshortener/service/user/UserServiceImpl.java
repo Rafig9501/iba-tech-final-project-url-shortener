@@ -1,7 +1,7 @@
-package com.stepproject.ibatechurlshortener.service;
+package com.stepproject.ibatechurlshortener.service.user;
 
-import com.stepproject.ibatechurlshortener.model.Url;
-import com.stepproject.ibatechurlshortener.repository.UrlRepository;
+import com.stepproject.ibatechurlshortener.model.User;
+import com.stepproject.ibatechurlshortener.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -9,17 +9,18 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class UrlService {
+public class UserServiceImpl implements UserService{
 
-    private final UrlRepository urlRepository;
+    private final UserRepository userRepository;
 
-    public UrlService(UrlRepository urlRepository) {
-        this.urlRepository = urlRepository;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public ResponseEntity<Url> get(Long id) {
+    @Override
+    public ResponseEntity<User> get(Long id) {
         try {
-            Optional<Url> url = urlRepository.findById(id);
+            Optional<User> url = userRepository.findById(id);
             return url.map(value -> new ResponseEntity<>(value, HttpStatus.FOUND)).orElseGet(() ->
                     new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
         } catch (Exception e) {
@@ -27,9 +28,10 @@ public class UrlService {
         }
     }
 
-    public ResponseEntity<Url> create(Url url) {
+    @Override
+    public ResponseEntity<User> save(User user) {
         try {
-            return new ResponseEntity<>(urlRepository.save(url), HttpStatus.OK);
+            return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
