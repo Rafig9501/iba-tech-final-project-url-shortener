@@ -1,5 +1,6 @@
 package com.stepproject.ibatechurlshortener.controller;
 
+import com.stepproject.ibatechurlshortener.dto.UserDto;
 import com.stepproject.ibatechurlshortener.model.User;
 import com.stepproject.ibatechurlshortener.service.user.UserService;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class RegistrationController {
                                @RequestParam String lastName,
                                @RequestParam String email,
                                @RequestParam String password) {
-        User user = new User(name, lastName, email, password);
+        UserDto user = new UserDto(name, lastName, email, password);
         ResponseEntity<Optional<User>> responseEntity = userService.findByEmail(email);
         if (!responseEntity.getStatusCode().equals(HttpStatus.FOUND)) {
             userService.save(user);

@@ -1,20 +1,28 @@
 package com.stepproject.ibatechurlshortener.service.user;
 
+import com.stepproject.ibatechurlshortener.dto.UserDto;
 import com.stepproject.ibatechurlshortener.model.User;
 import com.stepproject.ibatechurlshortener.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder encoder;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder encoder) {
         this.userRepository = userRepository;
+        this.encoder = encoder;
     }
 
     @Override
@@ -29,12 +37,38 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ResponseEntity<User> save(User user) {
+    public ResponseEntity<User> save(UserDto userDto) {
         try {
+            User user = new User(userDto.getName(), userDto.getLastName(),
+                    userDto.getEmail(), encoder.encode(userDto.getPassword()));
             return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User findUserByID(Long id) {
+        return userRepository.findById(id).orElse(new User());
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        ResponseEntity<Optional<User>> userOptional= findByEmail(email);
+        HttpStatus status = userOptional.getStatusCode();
+        if (!status.equals(HttpStatus.FOUND) || !Objects.requireNonNull(userOptional.getBody()).isPresent()) {
+            throw new UsernameNotFoundException("Invalid username or password.");
+        }
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("USER"));
+        User user = userOptional.getBody().get();
+        return new org.springframework.security.core.userdetails.User(user.getEmail(),
+                user.getPassword(), authorities);
     }
 }

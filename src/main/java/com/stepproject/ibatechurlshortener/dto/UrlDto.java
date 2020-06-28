@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class UrlRequest {
+public class UrlDto {
 
     private String fullUrl;
 
