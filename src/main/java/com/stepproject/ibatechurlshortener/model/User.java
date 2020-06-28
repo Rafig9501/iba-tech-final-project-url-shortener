@@ -2,6 +2,7 @@ package com.stepproject.ibatechurlshortener.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -29,7 +30,6 @@ public class User extends BaseEntity{
     @Column(name = "password")
     private String password;
 
-    @NonNull
     @ManyToMany
     @JoinTable(name = "user_url",
             joinColumns = @JoinColumn(name = "user_id"),
