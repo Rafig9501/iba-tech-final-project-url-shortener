@@ -3,9 +3,12 @@ package com.stepproject.ibatechurlshortener.service.user;
 import com.stepproject.ibatechurlshortener.model.User;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Optional;
+
 public interface UserService {
 
-    public ResponseEntity<User> get(Long id);
+    ResponseEntity<Optional<User>> findByEmail(String email);
 
-    public ResponseEntity<User> save(User url);
+    ResponseEntity<User> save(User url);
+
 }
