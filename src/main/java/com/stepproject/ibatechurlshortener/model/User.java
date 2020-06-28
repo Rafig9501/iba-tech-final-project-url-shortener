@@ -23,7 +23,7 @@ public class User extends BaseEntity{
     private String lastName;
 
     @NonNull
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @NonNull

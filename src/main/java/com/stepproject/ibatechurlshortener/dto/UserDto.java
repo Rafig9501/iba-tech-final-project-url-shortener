@@ -10,4 +10,6 @@ public class UserDto {
 
     private final String name;
     private final String lastName;
+    private final String email;
+    private final String password;
 }
