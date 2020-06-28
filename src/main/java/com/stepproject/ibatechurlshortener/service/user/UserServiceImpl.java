@@ -18,13 +18,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ResponseEntity<User> get(Long id) {
+    public ResponseEntity<Optional<User>> findByEmail(String email) {
         try {
-            Optional<User> url = userRepository.findById(id);
-            return url.map(value -> new ResponseEntity<>(value, HttpStatus.FOUND)).orElseGet(() ->
-                    new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+            Optional<User> user = userRepository.findByEmail(email);
+            return user.isPresent() ? new ResponseEntity<>(user, HttpStatus.FOUND)
+                    : new ResponseEntity<>(Optional.empty(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(Optional.empty(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
