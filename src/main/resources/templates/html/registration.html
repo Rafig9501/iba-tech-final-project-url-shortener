@@ -28,7 +28,8 @@
                 If you already have an account - <a href="/login"
                                                     class="registration-section-container-description-link">Login</a>
             </p>
-            <form method="post" th:action="${user}" class="registration-section-container-form">
+            <form name="form1" method="post" th:action="${user}" id="myForm"
+                  class="registration-section-container-form">
                 <div class="registration-section-container-form-input-wrapper">
                     <img src="/img/user-icon.svg" alt="User Icon">
                     <input name="name" class="registration-section-container-form-input" placeholder="Name" type="text">
@@ -46,20 +47,37 @@
                 <div class="registration-section-container-form-input-wrapper">
                     <img src="/img/lock-icon.svg" alt="User Icon">
                     <input name="password" class="registration-section-container-form-input" placeholder="Password"
-                           type="password">
+                           type="password" id="password">
                 </div>
                 <div class="registration-section-container-form-input-wrapper mb0">
                     <img src="/img/lock-icon.svg" alt="User Icon">
                     <input class="registration-section-container-form-input" placeholder="Confirm Password"
-                           type="password">
+                           type="password" name="repeatPassword">
                 </div>
-                <input type="submit" value="Create account" class="registration-section-container-form-submit">
+                <input type="submit" value="Create account" onClick="return passcheck();"
+                       class="registration-section-container-form-submit">
             </form>
         </div>
     </section>
 </div>
 </body>
-
+<script>
+    function passcheck() {
+        var form1 = document.getElementById('myForm');
+        if (form1.name.value === "" || form1.lastName.value === "" || form1.email.value === ""
+            || form1.password.value === "" || form1.repeatPassword.value === "") {
+            alert("One of the field is empty , please  fill all fields");
+            form1.name.focus();
+            return false;
+        } else if (form1.password.value !== form1.repeatPassword.value) {
+            alert("Passwords must be the same");
+            form1.password.focus();
+            return false
+        } else {
+            return true;
+        }
+    }
+</script>
 
 <!-- Mirrored from www.alexshmyrkov.space/URL Shortener/registration.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 24 Jun 2020 15:58:55 GMT -->
 </html>
