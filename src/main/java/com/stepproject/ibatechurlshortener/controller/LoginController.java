@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/login")
 public class LoginController {
 
     private final UserController userController;
@@ -14,8 +13,9 @@ public class LoginController {
         this.userController = userController;
     }
 
-    @GetMapping
+    @GetMapping("/login")
     public String login(){
+        System.out.println("@GetMapping public String login()");
         return "html/login";
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 
 <!-- Mirrored from www.alexshmyrkov.space/URL Shortener/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 24 Jun 2020 15:57:27 GMT -->
@@ -22,7 +22,7 @@
                 <h1 class="login-section-container-title">Welcome Back!</h1>
                 <p class="login-section-container-description">To keep connected with us please login with personal
                     information by email address and password</p>
-                <form method="post" class="login-section-container-form">
+                <form method="post" th:action="@{/login}" class="login-section-container-form">
                     <div class="login-section-container-form-input-wrapper">
                         <img src="/img/mail-icon.svg" alt="User Icon">
                         <label for="email"></label>
@@ -36,14 +36,14 @@
                             type="password">
                     </div>
                     <div class="login-section-form-buttons">
-                        <a href="landing.html" class="login-section-container-form-login">Login now</a>
+                        <input type="submit" name="login" id="login-submit"
+                               class="login-section-container-form-login" value="Log In"/>
                         <a href="registration.html" class="login-section-container-form-signup">Create account</a>
                     </div>
                 </form>
             </div>
         </section>
     </div>
-    <script src="/js/checkbox.js"></script>
 </body>
 
 
