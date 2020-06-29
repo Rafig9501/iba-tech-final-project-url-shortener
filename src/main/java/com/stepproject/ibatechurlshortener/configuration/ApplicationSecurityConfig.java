@@ -33,8 +33,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/registration/**",
                         "/js/**",
                         "/css/**",
-                        "/img/**",
-                        "/info").permitAll()
+                        "/img/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
