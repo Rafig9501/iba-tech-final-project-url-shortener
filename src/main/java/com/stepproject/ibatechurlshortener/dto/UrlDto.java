@@ -1,17 +1,27 @@
 package com.stepproject.ibatechurlshortener.dto;
 
+import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Value;
 
 import java.time.LocalDateTime;
 
-@Data
+@AllArgsConstructor
+@Value
+@Getter
 public class UrlDto {
 
-    private String fullUrl;
+    @NotNull
+    String fullUrl;
 
-    private String shortUrl;
+    @NotNull
+    String shortUrl;
 
-    private LocalDateTime creationDate;
+    @NotNull
+    LocalDateTime creationDate;
 
-    private Long count;
+    @NotNull
+    Long count;
 }

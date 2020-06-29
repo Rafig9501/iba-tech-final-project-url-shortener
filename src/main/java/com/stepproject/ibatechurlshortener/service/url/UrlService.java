@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface UrlService {
 
-    public ResponseEntity<Url> getByShortened(String shortened);
+    ResponseEntity<Url> getByShortened(String shortened);
 
-    public ResponseEntity<Url> save(Url url);
+    ResponseEntity<Url> save(Url url);
 }

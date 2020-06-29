@@ -41,7 +41,8 @@ public class UserServiceImpl implements UserService {
         try {
             User user = new User(userDto.getName(), userDto.getLastName(),
                     userDto.getEmail(), encoder.encode(userDto.getPassword()));
-            return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
+            User saved = userRepository.saveAndFlush(user);
+            return new ResponseEntity<>(saved, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -60,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        ResponseEntity<Optional<User>> userOptional= findByEmail(email);
+        ResponseEntity<Optional<User>> userOptional = findByEmail(email);
         HttpStatus status = userOptional.getStatusCode();
         if (!status.equals(HttpStatus.FOUND) || !Objects.requireNonNull(userOptional.getBody()).isPresent()) {
             throw new UsernameNotFoundException("Invalid username or password.");
@@ -70,5 +71,20 @@ public class UserServiceImpl implements UserService {
         User user = userOptional.getBody().get();
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(), authorities);
+    }
+
+    @Override
+    public ResponseEntity<User> registerUser(UserDto userDto) {
+        try {
+            ResponseEntity<Optional<User>> byEmail = findByEmail(userDto.getEmail());
+            if (byEmail.getStatusCode().equals(HttpStatus.FOUND))
+                return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+            if (byEmail.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                return save(userDto);
+            }
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

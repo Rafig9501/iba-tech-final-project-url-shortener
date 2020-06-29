@@ -17,4 +17,6 @@ public interface UserService  extends UserDetailsService {
     List<User> findAllUsers();
 
     User findUserByID(Long id);
+
+    ResponseEntity<User> registerUser(UserDto userDto);
 }
