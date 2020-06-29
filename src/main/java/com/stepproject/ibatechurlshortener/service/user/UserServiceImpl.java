@@ -61,14 +61,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        ResponseEntity<Optional<User>> userOptional = findByEmail(email);
-        HttpStatus status = userOptional.getStatusCode();
-        if (!status.equals(HttpStatus.FOUND) || !Objects.requireNonNull(userOptional.getBody()).isPresent()) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (!userOptional.isPresent()) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
         Set<GrantedAuthority> authorities = new HashSet<>();
         authorities.add(new SimpleGrantedAuthority("USER"));
-        User user = userOptional.getBody().get();
+        User user = userOptional.get();
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(), authorities);
     }
