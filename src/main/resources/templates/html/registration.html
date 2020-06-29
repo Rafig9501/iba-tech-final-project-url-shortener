@@ -28,7 +28,7 @@
                 If you already have an account - <a href="/login"
                                                     class="registration-section-container-description-link">Login</a>
             </p>
-            <form method="post" class="registration-section-container-form">
+            <form method="post" th:action="${user}" class="registration-section-container-form">
                 <div class="registration-section-container-form-input-wrapper">
                     <img src="/img/user-icon.svg" alt="User Icon">
                     <input name="name" class="registration-section-container-form-input" placeholder="Name" type="text">
@@ -53,8 +53,7 @@
                     <input class="registration-section-container-form-input" placeholder="Confirm Password"
                            type="password">
                 </div>
-                <input type="submit" action="/info" value="Create account"
-                       class="registration-section-container-form-submit">
+                <input type="submit" value="Create account" class="registration-section-container-form-submit">
             </form>
         </div>
     </section>
