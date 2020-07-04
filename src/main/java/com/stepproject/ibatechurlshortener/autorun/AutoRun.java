@@ -1,5 +1,6 @@
 package com.stepproject.ibatechurlshortener.autorun;
 
+import com.stepproject.ibatechurlshortener.dto.UrlDto;
 import com.stepproject.ibatechurlshortener.dto.UserDto;
 import com.stepproject.ibatechurlshortener.model.Url;
 import com.stepproject.ibatechurlshortener.model.User;
@@ -41,24 +42,25 @@ public class AutoRun implements CommandLineRunner {
 
         Url url1 = new Url();
         url1.setDate(LocalDateTime.now());
-        url1.setShortcut("https://github.com/Rafig9501/ibdsa");
+//        url1.setShortcut("https://github.com/Rafig9501/ibdsa");
         url1.setFull("https://github.com/Rafig9501/iba-tech-final-project-url-shortener");
         url1.setCount(8L);
 
-        Url url2 = new Url();
-        url2.setDate(LocalDateTime.now());
-        url2.setShortcut("https://medium.com/javarevisited/how-implement");
-        url2.setFull("https://medium.com/javarevisited/how-implement-url-shortening-by-java-and-spring-boot-cd87b35b548b");
-        url2.setCount(8L);
-
-        ResponseEntity<Url> saveUrl1 = urlService.save(url1);
-        urlService.save(url2);
-
-        Url saved = saveUrl1.getBody();
-        if (saved != null) {
-            String shortUrl = shortenerService.convertToShortUrl(saveUrl1.getBody());
-            saved.setShortcut(shortUrl);
-            urlService.save(saved);
-        }
+//        UrlDto url2 = new UrlDto();
+//        url2.setDate(LocalDateTime.now());
+//        url2.setShortcut("https://medium.com/javarevisited/how-implement");
+//        url2.setFull("https://medium.com/javarevisited/how-implement-url-shortening-by-java-and-spring-boot-cd87b35b548b");
+//        url2.setCount(8L);
+//
+//        ResponseEntity<Url> saveUrl1 = urlService.save(url1);
+//        urlService.save(url2);
+//
+//        Url saved = saveUrl1.getBody();
+//        if (saved != null) {
+//            String shortUrl = shortenerService.convertToShortUrl(saveUrl1.getBody());
+//            System.out.println("URRRRRRRRRRRRRRRRRRRL " +shortUrl);
+//            saved.setShortcut(shortUrl);
+//            urlService.save(saved);
+//        }
     }
 }

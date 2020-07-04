@@ -31,16 +31,18 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(
                         "/registration/**",
+                        "/main-page/**",
                         "/js/**",
                         "/css/**",
-                        "/img/**").permitAll()
+                        "/img/**"
+                        ).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/urrraa")
+                .defaultSuccessUrl("/landing",true)
                 .permitAll()
                 .and()
                 .logout()
