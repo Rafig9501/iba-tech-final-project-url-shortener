@@ -1,16 +1,14 @@
 package com.stepproject.ibatechurlshortener.controller;
 
-import com.stepproject.ibatechurlshortener.model.Url;
+import com.stepproject.ibatechurlshortener.dto.UrlDto;
 import com.stepproject.ibatechurlshortener.service.url.UrlService;
-import org.springframework.http.ResponseEntity;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+@Log4j2
 @Controller
-@RequestMapping("/url")
 public class UrlController {
 
     private final UrlService urlService;
@@ -19,11 +17,16 @@ public class UrlController {
         this.urlService = urlService;
     }
 
-    @GetMapping(path = "{url}")
-    public RedirectView getOriginUrl(@PathVariable String url) {
-        Url shortened = urlService.getByShortened(url).getBody();
-        if (shortened != null)
-            return new RedirectView(shortened.getFull());
-        else throw new RuntimeException();
+    @GetMapping("main-page")
+    public String main(Model model) {
+        model.addAttribute("url", "main-page/shorten");
+        return "html/main-page";
+    }
+
+    @PostMapping("main-page/shorten")
+    public String shortUrl(@RequestParam(name = "url") String urlParam) {
+        UrlDto urlDto = new UrlDto(urlParam);
+        urlService.saveAndShorten(urlDto);
+        return "html/main-page";
     }
 }

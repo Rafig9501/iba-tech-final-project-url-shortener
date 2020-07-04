@@ -18,6 +18,13 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class Url extends BaseEntity {
 
+//    public Url(@NonNull String shortcut, @NonNull String full, @NonNull Long count, @NonNull LocalDateTime date) {
+//        this.shortcut = shortcut;
+//        this.full = full;
+//        this.count = count;
+//        this.date = date;
+//    }
+
     @NonNull
     @Column(name = "shortened_url", unique = true)
     private String shortcut;
@@ -26,7 +33,6 @@ public class Url extends BaseEntity {
     @Column(name = "full_url")
     private String full;
 
-    @NonNull
     @Column(name = "count")
     private Long count;
 
@@ -34,7 +40,6 @@ public class Url extends BaseEntity {
     @Column(name = "creation_date")
     private LocalDateTime date;
 
-    @NonNull
     @ManyToMany(mappedBy = "urls")
     @JsonBackReference
     private Set<User> users;
