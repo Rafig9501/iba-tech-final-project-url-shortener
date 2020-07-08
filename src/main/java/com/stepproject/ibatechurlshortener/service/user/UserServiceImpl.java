@@ -26,13 +26,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<Optional<User>> findByEmail(String email) {
+    public ResponseEntity<User> findByEmail(String email) {
         try {
             Optional<User> user = userRepository.findByEmail(email);
-            return user.isPresent() ? new ResponseEntity<>(user, HttpStatus.FOUND)
-                    : new ResponseEntity<>(Optional.empty(), HttpStatus.NOT_FOUND);
+            return user.map(value -> new ResponseEntity<>(value, HttpStatus.FOUND)).orElseGet(() ->
+                    new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
         } catch (Exception e) {
-            return new ResponseEntity<>(Optional.empty(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<User> registerUser(UserDto userDto) {
         try {
-            ResponseEntity<Optional<User>> byEmail = findByEmail(userDto.getEmail());
+            ResponseEntity<User> byEmail = findByEmail(userDto.getEmail());
             if (byEmail.getStatusCode().equals(HttpStatus.FOUND))
                 return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
             if (byEmail.getStatusCode().equals(HttpStatus.NOT_FOUND)) {

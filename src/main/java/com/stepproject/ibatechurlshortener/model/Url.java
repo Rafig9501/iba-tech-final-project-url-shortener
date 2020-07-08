@@ -18,13 +18,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class Url extends BaseEntity {
 
-//    public Url(@NonNull String shortcut, @NonNull String full, @NonNull Long count, @NonNull LocalDateTime date) {
-//        this.shortcut = shortcut;
-//        this.full = full;
-//        this.count = count;
-//        this.date = date;
-//    }
-
     @NonNull
     @Column(name = "shortened_url", unique = true)
     private String shortcut;

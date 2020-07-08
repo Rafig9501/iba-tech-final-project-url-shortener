@@ -6,11 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService  extends UserDetailsService {
 
-    ResponseEntity<Optional<User>> findByEmail(String email);
+    ResponseEntity<User> findByEmail(String email);
 
     ResponseEntity<User> save(UserDto userDto);
 
