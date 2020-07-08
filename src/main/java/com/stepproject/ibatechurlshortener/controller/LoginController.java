@@ -2,7 +2,7 @@ package com.stepproject.ibatechurlshortener.controller;
 
 import com.stepproject.ibatechurlshortener.model.User;
 import com.stepproject.ibatechurlshortener.service.user.UserService;
-import lombok.NonNull;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,8 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.Objects;
-import java.util.Optional;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
@@ -23,19 +22,20 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "html/login";
     }
 
     @GetMapping("/landing")
-    public String getStarted(Authentication authentication , Model model){
+    public String getStarted(Authentication authentication, Model model, HttpSession session) {
         UserDetails user = (UserDetails) authentication.getPrincipal();
-        ResponseEntity<Optional<User>> byEmail = userService.findByEmail(user.getUsername());
-        if(Objects.requireNonNull(byEmail.getBody()).isPresent()){
-            String name = byEmail.getBody().get().getName();
-            String lastName = byEmail.getBody().get().getLastName();
+        session.setAttribute("user", user);
+        ResponseEntity<User> byEmail = userService.findByEmail(user.getUsername());
+        if (byEmail.getStatusCode().equals(HttpStatus.FOUND)) {
+            String name = byEmail.getBody().getName();
+            String lastName = byEmail.getBody().getLastName();
             String fullName = name + " " + lastName;
-            model.addAttribute("user",fullName);
+            model.addAttribute("user", fullName);
         }
         return "html/landing";
     }
