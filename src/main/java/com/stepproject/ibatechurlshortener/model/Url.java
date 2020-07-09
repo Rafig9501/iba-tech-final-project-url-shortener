@@ -9,6 +9,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "url")
@@ -35,5 +36,5 @@ public class Url extends BaseEntity {
 
     @ManyToMany(mappedBy = "urls")
     @JsonBackReference
-    private Set<User> users;
+    private Set<User> users = new HashSet<>();
 }

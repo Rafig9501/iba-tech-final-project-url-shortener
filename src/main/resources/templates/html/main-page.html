@@ -49,45 +49,10 @@
                         <th>Full URL</th>
                         <th>Visit count</th>
                     </thead>
-                    <tr>
-                        <td>21.06.2020</td>
-                        <td>https://cutt.ly/DyL7q0R</td>
-                        <td>https://www.freepik..com/free-vector/happy-rich-banker-celebrating-income-growth_8609326.htm#page=1&query=money&position
-                        </td>
-                        <td>21213400 <img class="full-url-arrow" src="../img/full-url-arrow.png" alt="arrow"></td>
-                    </tr>
-                    <tr>
-                        <td>21.06.2020</td>
-                        <td>https://cutt.ly/DyL7q0R</td>
-                        <td>https://www.freepik..com/free-vector/happy-rich-banker-celebrating-income-growth_8609326.htm#page=1&query=money&position
-                        </td>
-                        <td>21213400 <img class="full-url-arrow" src="../img/full-url-arrow.png" alt="arrow"></td>
-                    </tr>
-                    <tr>
-                        <td>21.06.2020</td>
-                        <td>https://cutt.ly/DyL7q0R</td>
-                        <td>https://www.freepik..com/free-vector/happy-rich-banker-celebrating-income-growth_8609326.htm#page=1&query=money&position
-                        </td>
-                        <td>21213400 <img class="full-url-arrow" src="../img/full-url-arrow.png" alt="arrow"></td>
-                    </tr>
-                    <tr>
-                        <td>21.06.2020</td>
-                        <td>https://cutt.ly/DyL7q0R</td>
-                        <td>https://www.freepik..com/free-vector/happy-rich-banker-celebrating-income-growth_8609326.htm#page=1&query=money&position
-                        </td>
-                        <td>21213400 <img class="full-url-arrow" src="../img/full-url-arrow.png" alt="arrow"></td>
-                    </tr>
-                    <tr>
-                        <td>21.06.2020</td>
-                        <td>https://cutt.ly/DyL7q0R</td>
-                        <td>https://www.freepik..com/free-vector/happy-rich-banker-celebrating-income-growth_8609326.htm#page=1&query=money&position
-                        </td>
-                        <td>21213400 <img class="full-url-arrow" src="../img/full-url-arrow.png" alt="arrow"></td>
-                    </tr>
-                    <tr>
-                        <td>21.06.2020</td>
-                        <td>https://cutt.ly/DyL7q0R</td>
-                        <td>https://www.freepik..com/free-vector/happy-rich-banker-celebrating-income-growth_8609326.htm#page=1&query=money&position
+                    <tr th:each="urlItem : ${urlList}">
+                        <td th:text="${urlItem.getDate()}">21.06.2020</td>
+                        <td th:text="${urlItem.getShortcut()}">https://cutt.ly/DyL7q0R</td>
+                        <td th:text="${urlItem.getFull()}">https://www.freepik..com/free-vector/happy-rich-banker-celebrating-income-growth_8609326.htm#page=1&query=money&position
                         </td>
                         <td>21213400 <img class="full-url-arrow" src="../img/full-url-arrow.png" alt="arrow"></td>
                     </tr>

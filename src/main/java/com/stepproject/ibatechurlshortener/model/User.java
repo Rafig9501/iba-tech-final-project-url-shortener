@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "user_")
@@ -35,5 +36,5 @@ public class User extends BaseEntity{
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "url_id"))
     @JsonManagedReference
-    private Set<Url> urls;
+    private Set<Url> urls = new HashSet<>();
 }

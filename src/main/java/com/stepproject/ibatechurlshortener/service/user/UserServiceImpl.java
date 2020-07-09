@@ -1,8 +1,8 @@
 package com.stepproject.ibatechurlshortener.service.user;
 
+import com.stepproject.ibatechurlshortener.database.service.user.UserDBService;
 import com.stepproject.ibatechurlshortener.dto.UserDto;
 import com.stepproject.ibatechurlshortener.model.User;
-import com.stepproject.ibatechurlshortener.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,18 +17,18 @@ import java.util.*;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private final UserDBService userDBService;
     private final BCryptPasswordEncoder encoder;
 
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder encoder) {
-        this.userRepository = userRepository;
+    public UserServiceImpl(UserDBService userDBService, BCryptPasswordEncoder encoder) {
+        this.userDBService = userDBService;
         this.encoder = encoder;
     }
 
     @Override
     public ResponseEntity<User> findByEmail(String email) {
         try {
-            Optional<User> user = userRepository.findByEmail(email);
+            Optional<User> user = userDBService.findByEmail(email);
             return user.map(value -> new ResponseEntity<>(value, HttpStatus.FOUND)).orElseGet(() ->
                     new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
         } catch (Exception e) {
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
         try {
             User user = new User(userDto.getName(), userDto.getLastName(),
                     userDto.getEmail(), encoder.encode(userDto.getPassword()));
-            User saved = userRepository.saveAndFlush(user);
+            User saved = userDBService.save(user);
             return new ResponseEntity<>(saved, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,17 +51,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findAllUsers() {
-        return userRepository.findAll();
+        return userDBService.getAll();
     }
 
     @Override
     public User findUserByID(Long id) {
-        return userRepository.findById(id).orElse(new User());
+        return userDBService.getById(id).orElse(new User());
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> userOptional = userRepository.findByEmail(email);
+        Optional<User> userOptional = userDBService.findByEmail(email);
         if (!userOptional.isPresent()) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
