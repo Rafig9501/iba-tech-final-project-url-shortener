@@ -1,6 +1,7 @@
 package com.stepproject.ibatechurlshortener.controller;
 
 import com.stepproject.ibatechurlshortener.dto.UrlDto;
+import com.stepproject.ibatechurlshortener.model.Url;
 import com.stepproject.ibatechurlshortener.model.User;
 import com.stepproject.ibatechurlshortener.service.url.UrlService;
 import com.stepproject.ibatechurlshortener.service.user.UserService;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 @Log4j2
 @Controller
@@ -39,13 +43,26 @@ public class UrlController {
             model.addAttribute("user", fullName);
         }
         model.addAttribute("url", "main-page");
+        List<Url> urlList = userUrls(byEmail);
+        model.addAttribute("urlList", urlList);
         return "html/main-page";
     }
 
     @PostMapping("main-page")
-    public String shortUrl(@RequestParam(name = "url") String urlParam) {
+    public String shortUrl(@RequestParam(name = "url") String urlParam, HttpSession session) {
+        UserDetails userDetails = (UserDetails) session.getAttribute("user");
+        User user = userService.findByEmail(userDetails.getUsername()).getBody();
         UrlDto urlDto = new UrlDto(urlParam);
-        urlService.saveAndShorten(urlDto);
-        return "html/main-page";
+        urlService.saveAndShorten(urlDto, user);
+        return "redirect:/main-page";
+    }
+
+    public List<Url> userUrls(ResponseEntity<User> user) {
+        if (user.getStatusCode().equals(HttpStatus.FOUND)) {
+            System.out.println(urlService.getAllByUser(user.getBody()).getBody() + " salaaam");
+            return urlService.getAllByUser(user.getBody()).getBody();
+        } else {
+            return new ArrayList<>();
+        }
     }
 }

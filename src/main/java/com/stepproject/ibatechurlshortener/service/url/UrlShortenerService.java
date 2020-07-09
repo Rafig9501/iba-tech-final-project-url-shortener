@@ -25,6 +25,7 @@ public class UrlShortenerService {
         if (url != null) {
             id = url.getId();
         }
+        assert url != null;
         url.setShortcut(encode(id));
         return url;
     }
