@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -49,17 +50,16 @@ public class UrlController {
     }
 
     @PostMapping("main-page")
-    public String shortUrl(@RequestParam(name = "url") String urlParam, HttpSession session) {
+    public RedirectView shortUrl(@RequestParam(name = "url") String urlParam, HttpSession session) {
         UserDetails userDetails = (UserDetails) session.getAttribute("user");
         User user = userService.findByEmail(userDetails.getUsername()).getBody();
         UrlDto urlDto = new UrlDto(urlParam);
         urlService.saveAndShorten(urlDto, user);
-        return "redirect:/main-page";
+        return new RedirectView("main-page");
     }
 
     public List<Url> userUrls(ResponseEntity<User> user) {
         if (user.getStatusCode().equals(HttpStatus.FOUND)) {
-            System.out.println(urlService.getAllByUser(user.getBody()).getBody() + " salaaam");
             return urlService.getAllByUser(user.getBody()).getBody();
         } else {
             return new ArrayList<>();

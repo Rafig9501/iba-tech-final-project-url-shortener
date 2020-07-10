@@ -12,5 +12,6 @@ public interface UrlService {
     ResponseEntity<Url> getByShortened(String shortened);
     ResponseEntity<List<Url>> getAllByUser(User user);
     ResponseEntity<Url> save(UrlDto url);
+    ResponseEntity<Url> save(Url url);
     ResponseEntity<Url> saveAndShorten(UrlDto urlDto, User user);
 }
