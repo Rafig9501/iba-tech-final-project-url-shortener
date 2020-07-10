@@ -38,15 +38,15 @@ public class AutoRun implements CommandLineRunner {
 
         Url url1 = new Url();
         url1.setDate(LocalDateTime.now());
-        url1.setShortcut("https://github.com/Rafig9501/ibdsa");
+        url1.setShortcut("ibdsa");
         url1.setFull("https://github.com/Rafig9501/iba-tech-final-project-url-shortener");
-        url1.setCount(8L);
+        url1.setCount(0L);
 
         Url url2 = new Url();
         url2.setDate(LocalDateTime.now());
-        url2.setShortcut("https://medium.com/javarevisited/how-implement");
+        url2.setShortcut("lement");
         url2.setFull("https://medium.com/javarevisited/how-implement-url-shortening-by-java-and-spring-boot-cd87b35b548b");
-        url2.setCount(8L);
+        url2.setCount(0L);
         Set<User> users = new HashSet<>();
         users.add(user1);
         url1.setUsers(users);

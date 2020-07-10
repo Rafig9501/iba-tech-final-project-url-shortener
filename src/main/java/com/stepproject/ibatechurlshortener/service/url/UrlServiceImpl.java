@@ -59,6 +59,16 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
+    public ResponseEntity<Url> save(Url url) {
+        try {
+            return new ResponseEntity<>(urlDBService.save(url), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
     public ResponseEntity<Url> saveAndShorten(UrlDto urlDto, User user) {
         try {
             Url url = urlShortenerService.convertToShortUrl(urlDto);
