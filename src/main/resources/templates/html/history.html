@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org"
       lang="en">
 
-<meta http-equiv="content-type" content="text/html;charset=UTF-8"/><!-- /Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,35 +30,17 @@
     </div>
 </header>
 <main class="full-url-bg-container">
-    <!--        <img class="full-url-img" src="/img/full-url-robot.png" alt="flying robot">-->
     <div class="full-url-container">
-        <h2 class="full-url-title">ENTER YOUR FULL URL</h2>
-        <form method="post" th:action="${url}" class="full-url-input-container">
-            <input name="url" class="full-url-input" type="text" placeholder="Enter your URL">
-            <input type="submit" class="full-url-btn">SHORTEN</input>
-        </form>
         <table class="full-url-table">
             <tbody>
             <thead>
-            <th>Creation date</th>
-            <th>Short URL</th>
-            <th>Full URL</th>
-            <th>Visit count</th>
-            <th>History</th>
+            <th>Entering URL Dates</th>
             </thead>
-            <tr th:each="urlItem : ${urlList}">
-                <td th:text="${urlItem.getDate()}"></td>
-                <td th:text="${urlItem.getShortcut()}"></td>
-                <td th:text="${urlItem.getFull()}"></td>
-                <td th:text="${urlItem.getCount()}"><img class="full-url-arrow" src="../img/full-url-arrow.png"
-                                                         alt="arrow"></td>
-                <td><a th:href="@{/history/} + ${urlItem.getShortcut()}">INFO</a></td>
+            <tr th:each="urlItem : ${urlHistoryList}">
+                <td th:text="${urlItem.getDateTime()}"></td>
             </tr>
         </table>
     </div>
 </main>
 </body>
-
-
-<!-- Mirrored from www.alexshmyrkov.space/URL Shortener/main-page.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 24 Jun 2020 15:57:05 GMT -->
 </html>
