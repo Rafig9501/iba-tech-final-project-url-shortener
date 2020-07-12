@@ -3,10 +3,7 @@ package com.stepproject.ibatechurlshortener.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -37,4 +34,10 @@ public class Url extends BaseEntity {
     @ManyToMany(mappedBy = "urls")
     @JsonBackReference
     private Set<User> users = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "url_history",
+            joinColumns = @JoinColumn(name = "url_id"),
+            inverseJoinColumns = @JoinColumn(name = "url_visit_history_id"))
+    private Set<UrlHistory> urlHistory = new HashSet<>();
 }
