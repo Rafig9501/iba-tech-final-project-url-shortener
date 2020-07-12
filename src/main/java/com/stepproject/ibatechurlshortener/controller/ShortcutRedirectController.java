@@ -27,25 +27,21 @@ public class ShortcutRedirectController {
 
     @GetMapping("{shortcut}")
     public RedirectView redirecting(@PathVariable String shortcut) {
-        System.out.println(" in method public RedirectView redirecting(@PathVariable String shortcut)");
-        ResponseEntity<Url> shortened = urlService.getByShortened(shortcut);
-        if (shortened.getStatusCode().equals(HttpStatus.FOUND)) {
-            Url url = shortened.getBody();
-            String fullUrl = url.getFull();
-            url.setCount(url.getCount() + 1);
-            urlHistoryService.saveToUrlHistory(shortcut);
+        String fullUrl = urlHistoryService.increaseCount(shortcut);
+        if (fullUrl != null) {
             return new RedirectView(fullUrl);
-        }
-        return new RedirectView("/main-page");
+        } else
+            return new RedirectView("/main-page");
     }
 
     @GetMapping("history/{shortcut}")
     public String urlHistory(@PathVariable String shortcut, Model model) {
+        System.out.println("url history " + shortcut + " ");
         ResponseEntity<Url> shortened = urlService.getByShortened(shortcut);
         if (shortened.getStatusCode().equals(HttpStatus.FOUND)) {
             Set<UrlHistory> urlHistory = urlHistoryService.getUrlHistoryByShortcut(shortcut);
             System.out.println("salaaam" + urlHistory);
-            model.addAttribute("urlHistoryList",urlHistory);
+            model.addAttribute("urlHistoryList", urlHistory);
         }
         return "html/history";
     }

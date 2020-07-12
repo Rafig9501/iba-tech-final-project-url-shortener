@@ -43,4 +43,17 @@ public class UrlHistoryServiceImpl implements UrlHistoryService {
         return url.isPresent() ? urlHistoryDBService.findUrlHistory(url.get())
                 : new HashSet<>();
     }
+
+    @Override
+    public String increaseCount(String shortcut) {
+        Optional<Url> urlByShortcut = urlDBService.getByShortcut(shortcut);
+        if (urlByShortcut.isPresent()) {
+            Url url = urlByShortcut.get();
+            String fullUrl = url.getFull();
+            url.setCount(url.getCount() + 1);
+            saveToUrlHistory(shortcut);
+            return fullUrl;
+        }
+        return null;
+    }
 }

@@ -57,8 +57,8 @@ public class UrlHistoryDBService implements CrudService<UrlHistory> {
     public Set<UrlHistory> findUrlHistory(Url url) {
         try {
             Set<UrlHistory> urlHistories = new HashSet<>();
-            List<UrlHistory> urlHistoriesByUrls = urlHistoryRepository.findUrlHistoriesByUrls(url);
-            urlHistoriesByUrls.addAll(urlHistories);
+            List<UrlHistory> urlHistoriesByUrls = urlHistoryRepository.findUrlHistoryByUrls(url);
+            urlHistoriesByUrls.iterator().forEachRemaining(urlHistories::add);
             return urlHistories;
         } catch (Exception e) {
             return new HashSet<>();

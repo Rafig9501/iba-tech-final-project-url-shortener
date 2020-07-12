@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface UrlHistoryRepository extends JpaRepository<UrlHistory,Long> {
 
-    List<UrlHistory> findUrlHistoriesByUrls(Url url);
+    List<UrlHistory> findUrlHistoryByUrls(Url url);
 }
