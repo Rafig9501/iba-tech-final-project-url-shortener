@@ -50,16 +50,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAllUsers() {
-        return userDBService.getAll();
-    }
-
-    @Override
-    public User findUserByID(Long id) {
-        return userDBService.getById(id).orElse(new User());
-    }
-
-    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> userOptional = userDBService.findByEmail(email);
         if (!userOptional.isPresent()) {
