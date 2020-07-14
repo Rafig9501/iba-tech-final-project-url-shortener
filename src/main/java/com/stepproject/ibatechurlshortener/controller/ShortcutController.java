@@ -15,12 +15,12 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.util.Set;
 
 @Controller
-public class ShortcutRedirectController {
+public class ShortcutController {
 
     private final UrlService urlService;
     private final UrlHistoryService urlHistoryService;
 
-    public ShortcutRedirectController(UrlService urlService, UrlHistoryService urlHistoryService) {
+    public ShortcutController(UrlService urlService, UrlHistoryService urlHistoryService) {
         this.urlService = urlService;
         this.urlHistoryService = urlHistoryService;
     }

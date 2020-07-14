@@ -31,10 +31,11 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(
                         "/registration/**",
-//                        "/main-page/**",
                         "/js/**",
                         "/css/**",
-                        "/img/**"
+                        "/img/**",
+                        "/forgot-password/**",
+                        "/urraa"
                         ).permitAll()
                 .anyRequest().authenticated()
                 .and()

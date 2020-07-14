@@ -33,6 +33,6 @@ public class RegistrationController {
         } else {
             model.addAttribute("info", "User with this email already exist");
         }
-        return "html/info"; // TODO implement fix info.html
+        return "html/info";
     }
 }

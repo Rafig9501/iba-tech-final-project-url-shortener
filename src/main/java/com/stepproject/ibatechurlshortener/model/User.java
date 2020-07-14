@@ -31,6 +31,9 @@ public class User extends BaseEntity{
     @Column(name = "password")
     private String password;
 
+    @Column(name = "activation_code", unique = true)
+    private String activationCode;
+
     @ManyToMany
     @JoinTable(name = "user_url",
             joinColumns = @JoinColumn(name = "user_id"),

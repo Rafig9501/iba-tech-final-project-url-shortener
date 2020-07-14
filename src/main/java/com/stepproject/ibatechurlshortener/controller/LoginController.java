@@ -1,6 +1,7 @@
 package com.stepproject.ibatechurlshortener.controller;
 
 import com.stepproject.ibatechurlshortener.model.User;
+import com.stepproject.ibatechurlshortener.service.mail.MailServiceImpl;
 import com.stepproject.ibatechurlshortener.service.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,11 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     private final UserService userService;
+    private final MailServiceImpl mailService;
 
-    public LoginController(UserService userService) {
+    public LoginController(UserService userService, MailServiceImpl mailService) {
         this.userService = userService;
+        this.mailService = mailService;
     }
 
     @GetMapping("/login")

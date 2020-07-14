@@ -49,7 +49,11 @@
             <tr th:each="urlItem : ${urlList}">
                 <td th:text="${urlItem.getDate()}"></td>
                 <td th:text="${urlItem.getShortcut()}"></td>
-                <td th:text="${urlItem.getFull()}"></td>
+                <td>
+                    <div style="width:450px;word-wrap:break-word;">
+                        <a th:text="${urlItem.getFull()}"></a>
+                    </div>
+                </td>
                 <td th:text="${urlItem.getCount()}"><img class="full-url-arrow" src="../img/full-url-arrow.png"
                                                          alt="arrow"></td>
                 <td><a th:href="@{/history/} + ${urlItem.getShortcut()}">INFO</a></td>
@@ -58,7 +62,4 @@
     </div>
 </main>
 </body>
-
-
-<!-- Mirrored from www.alexshmyrkov.space/URL Shortener/main-page.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 24 Jun 2020 15:57:05 GMT -->
 </html>

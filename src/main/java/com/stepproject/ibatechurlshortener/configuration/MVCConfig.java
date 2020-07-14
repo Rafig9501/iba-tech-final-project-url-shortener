@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 
 @Configuration
 @EnableWebMvc
-public class ConfigurerApp implements WebMvcConfigurer {
+public class MVCConfig implements WebMvcConfigurer {
     private static final String PREFIX = "classpath:/templates";
 
     private static final String[] MAPPINGS = {"/css/**", "/js/**", "/img/**"};
