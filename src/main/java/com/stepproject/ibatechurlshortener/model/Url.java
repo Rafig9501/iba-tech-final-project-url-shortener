@@ -21,7 +21,7 @@ public class Url extends BaseEntity {
     private String shortcut;
 
     @NonNull
-    @Column(name = "full_url")
+    @Column(name = "full_url", length = 10000)
     private String full;
 
     @Column(name = "count")

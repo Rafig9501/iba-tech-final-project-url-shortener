@@ -26,8 +26,8 @@ public class MailServiceImpl implements MailService {
             mailMessage.setFrom(username);
             mailMessage.setTo(emailTo);
             mailMessage.setSubject("Reset Password");
-            mailMessage.setText("Please click to that link for resetting password\n " +
-                    "localhost:8080/forgot-password/token/" + activationCode);
+            mailMessage.setText("Please click to that link for resetting password\n" +
+                    "http://localhost:8080/forgot-password/token/" + activationCode);
 
             mailSender.send(mailMessage);
             return true;

@@ -37,7 +37,7 @@
             <th>Entering URL Dates</th>
             </thead>
             <tr th:each="urlItem : ${urlHistoryList}">
-                <td th:text="${urlItem.getDateTime()}"></td>
+                <td th:text="${#temporals.format(urlItem.getDateTime(), 'yyyy-MM-dd HH:mm:ss')}"></td>
             </tr>
         </table>
     </div>

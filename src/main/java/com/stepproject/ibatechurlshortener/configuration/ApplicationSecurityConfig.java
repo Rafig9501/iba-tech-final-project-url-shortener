@@ -29,14 +29,13 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers(
-                        "/registration/**",
+                .antMatchers
+                        ("/registration/**",
                         "/js/**",
                         "/css/**",
                         "/img/**",
-                        "/forgot-password/**",
-                        "/urraa"
-                        ).permitAll()
+                        "/forgot-password/**")
+                .permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -44,6 +43,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/landing",true)
+                .failureUrl("/failure-login")
                 .permitAll()
                 .and()
                 .logout()

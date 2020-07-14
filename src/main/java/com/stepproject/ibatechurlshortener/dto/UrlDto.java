@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 public class UrlDto {
 
+    @NonNull
     @NotNull
     String fullUrl;
 }

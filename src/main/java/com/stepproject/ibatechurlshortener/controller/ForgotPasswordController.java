@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/forgot-password")
 public class ForgotPasswordController {
@@ -53,17 +55,21 @@ public class ForgotPasswordController {
     }
 
     @GetMapping("/password-reset")
-    public String getNewPassword(Model model, String email) {
+    public String getNewPassword(Model model, String email, HttpSession session) {
+        session.setAttribute("email", email);
         model.addAttribute("password", "/forgot-password/password-reset/take");
-        model.addAttribute("email", email);
         return "html/password-reset";
     }
 
     @PostMapping("password-reset/take")
-    public String changePassword(String password, String email, Model model) {
-        System.out.println("public String changePassword(String password, Model model) " + password + email);
-        System.out.println("public String changePassword(String password, Model model) " + model.getAttribute("email"));
-        model.addAttribute("info", "PASSWORD HAS BEEN CHANGED");
+    public String changePassword(String password, Model model, HttpSession session) {
+        ResponseEntity<User> email = userService.updatePassword(String.valueOf(session.getAttribute("email")), password);
+        if (email.getStatusCode().equals(HttpStatus.OK)) {
+            model.addAttribute("info", "PASSWORD HAS BEEN CHANGED");
+        } else {
+            session.invalidate();
+            model.addAttribute("info", "SOMETHING WENT WRONG, PLEASE TRY AGAIN");
+        }
         return "html/info";
     }
 }

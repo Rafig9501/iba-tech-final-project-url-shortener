@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public interface UserService  extends UserDetailsService {
+public interface UserService extends UserDetailsService {
 
     ResponseEntity<User> findByEmail(String email);
 
@@ -20,4 +20,6 @@ public interface UserService  extends UserDetailsService {
     ResponseEntity<String> setUserActivationCode(String email);
 
     ResponseEntity<User> checkUserActivationCode(String token);
+
+    ResponseEntity<User> updatePassword(String email, String password);
 }

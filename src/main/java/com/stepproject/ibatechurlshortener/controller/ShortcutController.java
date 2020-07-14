@@ -25,10 +25,10 @@ public class ShortcutController {
         this.urlHistoryService = urlHistoryService;
     }
 
-    @GetMapping("{shortcut}")
+    @GetMapping("sct/{shortcut}")
     public RedirectView redirecting(@PathVariable String shortcut) {
-        String fullUrl = urlHistoryService.increaseCount(shortcut);
-        if (fullUrl != null) {
+        if (shortcut != null && urlService.getByShortened(shortcut).getStatusCode().equals(HttpStatus.FOUND)) {
+            String fullUrl = urlHistoryService.increaseCount(shortcut);
             return new RedirectView(fullUrl);
         } else
             return new RedirectView("/main-page");
@@ -36,11 +36,9 @@ public class ShortcutController {
 
     @GetMapping("history/{shortcut}")
     public String urlHistory(@PathVariable String shortcut, Model model) {
-        System.out.println("url history " + shortcut + " ");
         ResponseEntity<Url> shortened = urlService.getByShortened(shortcut);
         if (shortened.getStatusCode().equals(HttpStatus.FOUND)) {
             Set<UrlHistory> urlHistory = urlHistoryService.getUrlHistoryByShortcut(shortcut);
-            System.out.println("salaaam" + urlHistory);
             model.addAttribute("urlHistoryList", urlHistory);
         }
         return "html/history";
