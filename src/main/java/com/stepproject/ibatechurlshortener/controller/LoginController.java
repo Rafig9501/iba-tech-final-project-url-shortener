@@ -35,16 +35,11 @@ public class LoginController {
         session.setAttribute("user", user);
         ResponseEntity<User> byEmail = userService.findByEmail(user.getUsername());
         if (byEmail.getStatusCode().equals(HttpStatus.FOUND)) {
-            sendTestEmail(user.getUsername());
             String name = byEmail.getBody().getName();
             String lastName = byEmail.getBody().getLastName();
             String fullName = name + " " + lastName;
             model.addAttribute("user", fullName);
         }
         return "html/landing";
-    }
-
-    private void sendTestEmail(String email){
-        mailService.send(email,"Testing email","Hello from my Spring app");
     }
 }

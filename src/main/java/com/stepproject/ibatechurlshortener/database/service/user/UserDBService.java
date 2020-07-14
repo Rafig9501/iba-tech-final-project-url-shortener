@@ -3,6 +3,7 @@ package com.stepproject.ibatechurlshortener.database.service.user;
 import com.stepproject.ibatechurlshortener.database.repository.UserRepository;
 import com.stepproject.ibatechurlshortener.database.service.CrudService;
 import com.stepproject.ibatechurlshortener.model.User;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -58,6 +59,14 @@ public class UserDBService implements CrudService<User> {
     public Optional<User> findByEmail(String email) {
         try {
             return userRepository.findByEmail(email);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<User> getUserByActivationCode(String activationCode) {
+        try {
+            return userRepository.findUserByActivationCode(activationCode);
         } catch (Exception e) {
             return Optional.empty();
         }

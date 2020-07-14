@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface MailService {
 
-    void send(String emailTo, String subject, String message);
+    boolean send(String emailTo, String activationCode);
 
     String generateToken();
 }
