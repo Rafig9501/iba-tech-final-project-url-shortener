@@ -1,9 +1,9 @@
 package com.stepproject.ibatechurlshortener.dto;
 
-import com.sun.istack.internal.NotNull;
+
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Value;
 
 @AllArgsConstructor
@@ -11,15 +11,15 @@ import lombok.Value;
 @Value
 public class UserDto {
 
-    @NotNull
+    @NonNull
     String name;
 
-    @NotNull
+    @NonNull
     String lastName;
 
-    @NotNull
+    @NonNull
     String email;
 
-    @NotNull
+    @NonNull
     String password;
 }
