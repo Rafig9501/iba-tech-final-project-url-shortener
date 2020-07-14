@@ -5,7 +5,6 @@ import com.stepproject.ibatechurlshortener.database.service.url_history.UrlHisto
 import com.stepproject.ibatechurlshortener.database.service.user.UserDBService;
 import com.stepproject.ibatechurlshortener.dto.UrlDto;
 import com.stepproject.ibatechurlshortener.model.Url;
-import com.stepproject.ibatechurlshortener.model.UrlHistory;
 import com.stepproject.ibatechurlshortener.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class UrlServiceImpl implements UrlService {
@@ -22,13 +20,12 @@ public class UrlServiceImpl implements UrlService {
     private final UrlShortenerService urlShortenerService;
     private final UrlDBService urlDBService;
     private final UserDBService userDBService;
-    private final UrlHistoryDBService urlHistoryDBService;
 
-    public UrlServiceImpl(UrlShortenerService urlShortenerService, UrlDBService urlDBService, UserDBService userDBService, UrlHistoryDBService urlHistoryDBService) {
+
+    public UrlServiceImpl(UrlShortenerService urlShortenerService, UrlDBService urlDBService, UserDBService userDBService) {
         this.urlShortenerService = urlShortenerService;
         this.urlDBService = urlDBService;
         this.userDBService = userDBService;
-        this.urlHistoryDBService = urlHistoryDBService;
     }
 
     @Override
@@ -56,16 +53,6 @@ public class UrlServiceImpl implements UrlService {
         try {
             Url url = new Url();
             url.setFull(urlDto.getFullUrl());
-            return new ResponseEntity<>(urlDBService.save(url), HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @Override
-    public ResponseEntity<Url> save(Url url) {
-        try {
             return new ResponseEntity<>(urlDBService.save(url), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

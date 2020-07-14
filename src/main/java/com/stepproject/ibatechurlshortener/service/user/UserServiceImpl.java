@@ -100,6 +100,15 @@ public class UserServiceImpl implements UserService {
                 new ResponseEntity<>(new User(), HttpStatus.NO_CONTENT));
     }
 
-//    @Override
-//    public ResponseEntity<User> updatePassword(String )
+    @Override
+    public ResponseEntity<User> updatePassword(String email, String password) {
+        Optional<User> userOptional = userDBService.findByEmail(email);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setPassword(encoder.encode(password));
+            user.setActivationCode(null);
+            User saved = userDBService.save(user);
+            return new ResponseEntity<>(saved, HttpStatus.OK);
+        } else return new ResponseEntity<>(new User(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

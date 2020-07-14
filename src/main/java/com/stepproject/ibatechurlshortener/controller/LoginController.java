@@ -17,11 +17,9 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     private final UserService userService;
-    private final MailServiceImpl mailService;
 
-    public LoginController(UserService userService, MailServiceImpl mailService) {
+    public LoginController(UserService userService) {
         this.userService = userService;
-        this.mailService = mailService;
     }
 
     @GetMapping("/login")
@@ -41,5 +39,11 @@ public class LoginController {
             model.addAttribute("user", fullName);
         }
         return "html/landing";
+    }
+
+    @GetMapping("/failure-login")
+    public String loginFailed(Model model) {
+        model.addAttribute("info", "Email or Password are not exist");
+        return "html/info";
     }
 }
