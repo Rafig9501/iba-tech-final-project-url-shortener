@@ -65,8 +65,8 @@ public class UrlServiceImpl implements UrlService {
     public ResponseEntity<Url> saveAndShorten(UrlDto urlDto, User user) {
         try {
             Url url = urlShortenerService.convertToShortUrl(urlDto);
-            if(urlDBService.getByShortcut(url.getShortcut()).isPresent()){
-                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            while (urlDBService.getByShortcut(url.getShortcut()).isPresent()) {
+                url = urlShortenerService.convertToShortUrl(urlDto);
             }
             url.setDate(LocalDateTime.now());
             url.setCount(0L);
