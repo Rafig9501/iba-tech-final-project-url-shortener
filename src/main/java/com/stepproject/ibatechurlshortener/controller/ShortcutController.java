@@ -25,7 +25,7 @@ public class ShortcutController {
         this.urlHistoryService = urlHistoryService;
     }
 
-    @GetMapping("sct/{shortcut}")
+    @GetMapping("shortcut/{shortcut}")
     public RedirectView redirecting(@PathVariable String shortcut) {
         if (shortcut != null && urlService.getByShortened(shortcut).getStatusCode().equals(HttpStatus.FOUND)) {
             String fullUrl = urlHistoryService.increaseCount(shortcut);
