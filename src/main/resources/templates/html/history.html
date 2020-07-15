@@ -34,6 +34,27 @@
         <table class="full-url-table">
             <tbody>
             <thead>
+            <th>Creation Date</th>
+            <th>Shortened URL</th>
+            <th>Full URL</th>
+            <th>Visit Count</th>
+            </thead>
+            <tr>
+                <td th:text="${#temporals.format(url.getDate(), 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${url.getShortcut()}"></td>
+                <td>
+                    <div style="width:450px;word-wrap:break-word;">
+                        <a th:text="${url.getFull()}"></a>
+                    </div>
+                </td>
+                <td th:text="${url.getCount()}"></td>
+            </tr>
+        </table>
+    </div>
+    <div class="full-url-container">
+        <table class="full-url-table">
+            <tbody>
+            <thead>
             <th>URL Click Date and Time</th>
             <th>IP address of client</th>
             </thead>
