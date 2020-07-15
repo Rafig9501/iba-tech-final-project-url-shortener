@@ -42,7 +42,11 @@
             <tr>
                 <td th:text="${#temporals.format(url.getDate(), 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td th:text="${url.getShortcut()}"></td>
-                <td th:text="${url.getFull()}"></td>
+                <td>
+                    <div style="width:450px;word-wrap:break-word;">
+                        <a th:text="${url.getFull()}"></a>
+                    </div>
+                </td>
                 <td th:text="${url.getCount()}"></td>
             </tr>
         </table>
