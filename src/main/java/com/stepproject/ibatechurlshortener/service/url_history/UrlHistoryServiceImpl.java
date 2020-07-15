@@ -5,6 +5,7 @@ import com.stepproject.ibatechurlshortener.database.service.url.UrlDBService;
 import com.stepproject.ibatechurlshortener.database.service.url_history.UrlHistoryDBService;
 import com.stepproject.ibatechurlshortener.model.Url;
 import com.stepproject.ibatechurlshortener.model.UrlHistory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,12 +25,12 @@ public class UrlHistoryServiceImpl implements UrlHistoryService {
     }
 
     @Override
-    public void saveToUrlHistory(String shortcut) {
+    public void saveToUrlHistory(String shortcut, String IPAddress) {
         Optional<Url> urlByShortcut = urlDBService.getByShortcut(shortcut);
         if (urlByShortcut.isPresent()) {
             Url url = urlByShortcut.get();
             Set<UrlHistory> urlHistories = url.getUrlHistory();
-            UrlHistory urlHistory = new UrlHistory(LocalDateTime.now());
+            UrlHistory urlHistory = new UrlHistory(LocalDateTime.now(), IPAddress);
             urlHistoryDBService.save(urlHistory);
             urlHistories.add(urlHistory);
             url.setUrlHistory(urlHistories);
@@ -45,13 +46,13 @@ public class UrlHistoryServiceImpl implements UrlHistoryService {
     }
 
     @Override
-    public String increaseCount(String shortcut) {
+    public String addNewHistory(String shortcut, String IPAddress) {
         Optional<Url> urlByShortcut = urlDBService.getByShortcut(shortcut);
         if (urlByShortcut.isPresent()) {
             Url url = urlByShortcut.get();
             String fullUrl = url.getFull();
             url.setCount(url.getCount() + 1);
-            saveToUrlHistory(shortcut);
+            saveToUrlHistory(shortcut, IPAddress);
             return fullUrl;
         }
         return null;

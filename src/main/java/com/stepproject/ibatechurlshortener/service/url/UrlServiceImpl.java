@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,6 +74,26 @@ public class UrlServiceImpl implements UrlService {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<List<Url>> findByKeyword(String keyword) {
+        try {
+            List<Url> urls = urlDBService.findByKeyword(keyword);
+            return urls.isEmpty() ? new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT)
+                    : new ResponseEntity<>(urls, HttpStatus.FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public List<Url> userUrls(ResponseEntity<User> user) {
+        if (user.getStatusCode().equals(HttpStatus.FOUND)) {
+            return getAllByUser(user.getBody()).getBody();
+        } else {
+            return new ArrayList<>();
         }
     }
 }

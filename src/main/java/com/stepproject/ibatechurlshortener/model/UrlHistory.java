@@ -18,6 +18,10 @@ public class UrlHistory extends BaseEntity{
     @Column(name = "url_visit_date")
     private LocalDateTime dateTime;
 
+    @NonNull
+    @Column(name = "ip_address")
+    private String IPAddress;
+
     @ManyToMany(mappedBy = "urlHistory")
     private Set<Url> urls = new HashSet<>();
 }

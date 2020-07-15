@@ -27,7 +27,7 @@ public class MailServiceImpl implements MailService {
             mailMessage.setTo(emailTo);
             mailMessage.setSubject("Reset Password");
             mailMessage.setText("Please click to that link for resetting password\n" +
-                    "https://url-shortener-app-ibatech.herokuapp.com/forgot-password/token/" + activationCode);
+                    "http://localhost:8080/forgot-password/token/" + activationCode);
 
             mailSender.send(mailMessage);
             return true;

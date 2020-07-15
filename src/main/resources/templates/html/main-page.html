@@ -37,6 +37,10 @@
             <input name="url" class="full-url-input" type="text" placeholder="Enter your URL">
             <input type="submit" class="full-url-btn">SHORTEN</input>
         </form>
+        <form>
+            <input type="text" name="text" id="text" th:action="@{urlList}" placeholder="Search for urls..">
+            <input type="submit" value="Search"></input>
+        </form>
         <table class="full-url-table">
             <tbody>
             <thead>
@@ -46,6 +50,7 @@
             <th>Visit count</th>
             <th>History</th>
             </thead>
+            <br/>
             <tr th:each="urlItem : ${urlList}">
                 <td th:text="${#temporals.format(urlItem.getDate(), 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td th:text="${urlItem.getShortcut()}"></td>

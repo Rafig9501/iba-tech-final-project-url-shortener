@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Set;
 
 @Controller
@@ -26,9 +27,9 @@ public class ShortcutController {
     }
 
     @GetMapping("shortcut/{shortcut}")
-    public RedirectView redirecting(@PathVariable String shortcut) {
+    public RedirectView redirecting(@PathVariable String shortcut, HttpServletRequest request) {
         if (shortcut != null && urlService.getByShortened(shortcut).getStatusCode().equals(HttpStatus.FOUND)) {
-            String fullUrl = urlHistoryService.increaseCount(shortcut);
+            String fullUrl = urlHistoryService.addNewHistory(shortcut, request.getRemoteAddr());
             return new RedirectView(fullUrl);
         } else
             return new RedirectView("/main-page");
