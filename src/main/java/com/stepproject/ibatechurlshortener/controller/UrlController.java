@@ -34,7 +34,7 @@ public class UrlController {
     }
 
     @GetMapping("main-page")
-    public String main(Model model, HttpSession session) {
+    public String main(Model model, HttpSession session, String text) {
         UserDetails user1 = (UserDetails) session.getAttribute("user");
         ResponseEntity<User> byEmail = userService.findByEmail(user1.getUsername());
         if (byEmail.getStatusCode().equals(HttpStatus.FOUND)) {
@@ -44,8 +44,14 @@ public class UrlController {
             model.addAttribute("user", fullName);
         }
         model.addAttribute("url", "main-page");
-        List<Url> urlList = userUrls(byEmail);
-        model.addAttribute("urlList", urlList);
+        if (text == null || text.isEmpty()) {
+            List<Url> urlList = urlService.userUrls(byEmail);
+            model.addAttribute("urlList", urlList);
+        } else {
+            ResponseEntity<List<Url>> byKeyword = urlService.findByKeyword(text);
+            System.out.println("filtering is " + byKeyword.getBody());
+            model.addAttribute("urlList", byKeyword.getBody());
+        }
         return "html/main-page";
     }
 
@@ -56,13 +62,5 @@ public class UrlController {
         UrlDto urlDto = new UrlDto(urlParam);
         urlService.saveAndShorten(urlDto, user);
         return new RedirectView("main-page");
-    }
-
-    public List<Url> userUrls(ResponseEntity<User> user) {
-        if (user.getStatusCode().equals(HttpStatus.FOUND)) {
-            return urlService.getAllByUser(user.getBody()).getBody();
-        } else {
-            return new ArrayList<>();
-        }
     }
 }

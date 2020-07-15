@@ -71,4 +71,13 @@ public class UrlDBService implements CrudService<Url> {
             return new ArrayList<>();
         }
     }
+
+    public List<Url> findByKeyword(String keyword) {
+        try {
+            return urlRepository.findUrlByKeyword(keyword);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
 }

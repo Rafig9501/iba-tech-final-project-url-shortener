@@ -26,7 +26,7 @@ public class UrlShortenerService {
             id = url.getId();
         }
         assert url != null;
-        url.setShortcut("https://url-shortener-app-ibatech.herokuapp.com/shortcut/" + encode(id));
+        url.setShortcut(encode(id));
         return url;
     }
 

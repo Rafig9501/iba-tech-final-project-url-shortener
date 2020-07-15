@@ -13,4 +13,7 @@ public interface UrlService {
     ResponseEntity<List<Url>> getAllByUser(User user);
     ResponseEntity<Url> save(UrlDto url);
     ResponseEntity<Url> saveAndShorten(UrlDto urlDto, User user);
+    ResponseEntity<List<Url>> findByKeyword(String keyword);
+
+    List<Url> userUrls(ResponseEntity<User> user);
 }

@@ -43,7 +43,7 @@ public class LoginController {
 
     @GetMapping("/failure-login")
     public String loginFailed(Model model) {
-        model.addAttribute("info", "Email or Password are not exist");
+        model.addAttribute("info", "Email or Password are not correct");
         return "html/info";
     }
 }

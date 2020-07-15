@@ -34,10 +34,12 @@
         <table class="full-url-table">
             <tbody>
             <thead>
-            <th>Entering URL Dates</th>
+            <th>URL Click Date and Time</th>
+            <th>IP address of client</th>
             </thead>
             <tr th:each="urlItem : ${urlHistoryList}">
                 <td th:text="${#temporals.format(urlItem.getDateTime(), 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${urlItem.getIPAddress()}"></td>
             </tr>
         </table>
     </div>
