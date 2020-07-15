@@ -49,6 +49,7 @@
             <th>Full URL</th>
             <th>Visit count</th>
             <th>History</th>
+        <th>Delete</th>
             </thead>
             <br/>
             <tr th:each="urlItem : ${urlList}">
@@ -62,6 +63,8 @@
                 <td th:text="${urlItem.getCount()}"><img class="full-url-arrow" src="../img/full-url-arrow.png"
                                                          alt="arrow"></td>
                 <td><a th:href="@{/history/} + ${urlItem.getShortcut()}">INFO</a></td>
+                <td><a th:href="@{/delete/{shortcut}(shortcut=${urlItem.getShortcut()})}">Delete</a></td>
+
             </tr>
         </table>
     </div>

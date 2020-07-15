@@ -92,6 +92,25 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
+    public ResponseEntity<Url> deleteUrlByShortcut(String shortUrl, String email) {
+        try {
+            Optional<Url> urlOptional = urlDBService.getByShortcut(shortUrl);
+            Optional<User> userOptional = userDBService.findByEmail(email);
+            if (urlOptional.isPresent() && userOptional.isPresent()) {
+                User user = userOptional.get();
+                user.getUrls().remove(urlOptional.get());
+                userDBService.save(user);
+                return urlDBService.delete(urlOptional.get()) ? new ResponseEntity<>(new Url(), HttpStatus.OK)
+                        : new ResponseEntity<>(new Url(), HttpStatus.FORBIDDEN);
+            }
+            else return new ResponseEntity<>(new Url(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new Url(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @Override
     public List<Url> userUrls(ResponseEntity<User> user) {
         if (user.getStatusCode().equals(HttpStatus.FOUND)) {
             return getAllByUser(user.getBody()).getBody();
