@@ -2,6 +2,7 @@ package com.stepproject.ibatechurlshortener.database.service.user;
 
 import com.stepproject.ibatechurlshortener.database.repository.UserRepository;
 import com.stepproject.ibatechurlshortener.database.service.CrudService;
+import com.stepproject.ibatechurlshortener.model.Url;
 import com.stepproject.ibatechurlshortener.model.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -71,4 +72,5 @@ public class UserDBService implements CrudService<User> {
             return Optional.empty();
         }
     }
+
 }

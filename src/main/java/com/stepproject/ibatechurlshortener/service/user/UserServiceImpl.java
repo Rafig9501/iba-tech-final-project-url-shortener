@@ -69,9 +69,9 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<User> registerUser(UserDto userDto) {
         try {
             ResponseEntity<User> byEmail = findByEmail(userDto.getEmail());
-            if (byEmail.getStatusCode().equals(HttpStatus.FOUND))
+            if (byEmail.getStatusCode().equals(HttpStatus.FOUND)) {
                 return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-            if (byEmail.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+            } else if (byEmail.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
                 return save(userDto);
             }
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);

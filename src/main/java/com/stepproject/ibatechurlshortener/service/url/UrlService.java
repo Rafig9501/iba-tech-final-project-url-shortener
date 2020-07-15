@@ -14,6 +14,7 @@ public interface UrlService {
     ResponseEntity<Url> save(UrlDto url);
     ResponseEntity<Url> saveAndShorten(UrlDto urlDto, User user);
     ResponseEntity<List<Url>> findByKeyword(String keyword);
+    ResponseEntity<Url> deleteUrlByShortcut(String shortUrl, String email);
 
     List<Url> userUrls(ResponseEntity<User> user);
 }

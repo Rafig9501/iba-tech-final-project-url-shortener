@@ -11,14 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 @Log4j2
@@ -60,7 +59,15 @@ public class UrlController {
         UserDetails userDetails = (UserDetails) session.getAttribute("user");
         User user = userService.findByEmail(userDetails.getUsername()).getBody();
         UrlDto urlDto = new UrlDto(urlParam);
+        urlDto.getFullUrl();
         urlService.saveAndShorten(urlDto, user);
         return new RedirectView("main-page");
+    }
+
+    @GetMapping("/delete/{shortcut}/**")
+    public String deleteUser(@PathVariable("shortcut") String shortcut, HttpSession session) {
+        UserDetails user = (UserDetails) session.getAttribute("user");
+        urlService.deleteUrlByShortcut(shortcut, user.getUsername());
+       return "redirect:/main-page";
     }
 }
