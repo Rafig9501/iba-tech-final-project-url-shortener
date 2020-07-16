@@ -10,11 +10,9 @@ import java.util.List;
 public interface UrlService {
 
     ResponseEntity<Url> getByShortened(String shortened);
-    ResponseEntity<List<Url>> getAllByUser(User user);
+    ResponseEntity<List<Url>> getAllUrlsByUser(User user);
     ResponseEntity<Url> save(UrlDto url);
     ResponseEntity<Url> saveAndShorten(UrlDto urlDto, User user);
     ResponseEntity<List<Url>> findByKeyword(String keyword);
     ResponseEntity<Url> deleteUrlByShortcut(String shortUrl, String email);
-
-    List<Url> userUrls(ResponseEntity<User> user);
 }

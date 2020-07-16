@@ -54,10 +54,15 @@
             <br/>
             <tr th:each="urlItem : ${urlList}">
                 <td th:text="${#temporals.format(urlItem.getDate(), 'yyyy-MM-dd HH:mm:ss')}"></td>
-                <td th:text="${urlItem.getShortcut()}"></td>
+                <td>
+                    <div style="width:250px;word-wrap:break-word;">
+                        <a th:href="'https://urlshortcut.herokuapp.com/'+${urlItem.getShortcut()}"
+                           th:text="'https://urlshortcut.herokuapp.com/'+${urlItem.getShortcut()}"></a>
+                    </div>
+                </td>
                 <td>
                     <div style="width:450px;word-wrap:break-word;">
-                        <a th:text="${urlItem.getFull()}"></a>
+                        <a th:href="${urlItem.getFull()}" th:text="${urlItem.getFull()}"></a>
                     </div>
                 </td>
                 <td th:text="${urlItem.getCount()}"><img class="full-url-arrow" src="../img/full-url-arrow.png"

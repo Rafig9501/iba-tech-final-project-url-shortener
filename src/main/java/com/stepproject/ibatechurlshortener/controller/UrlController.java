@@ -11,14 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.function.Consumer;
 
 @Log4j2
 @Controller
@@ -32,7 +32,7 @@ public class UrlController {
         this.userService = userService;
     }
 
-    @GetMapping("main-page")
+    @GetMapping("/main-page")
     public String main(Model model, HttpSession session, String text) {
         UserDetails user1 = (UserDetails) session.getAttribute("user");
         ResponseEntity<User> byEmail = userService.findByEmail(user1.getUsername());
@@ -43,31 +43,31 @@ public class UrlController {
             model.addAttribute("user", fullName);
         }
         model.addAttribute("url", "main-page");
-        if (text == null || text.isEmpty()) {
-            List<Url> urlList = urlService.userUrls(byEmail);
-            model.addAttribute("urlList", urlList);
+        if (byEmail.getStatusCode().equals(HttpStatus.FOUND) && text == null || text.isEmpty()) {
+            ResponseEntity<List<Url>> urlList = urlService.getAllUrlsByUser(byEmail.getBody());
+            if (urlList.getStatusCode().equals(HttpStatus.FOUND)) {
+                model.addAttribute("urlList", urlList.getBody());
+            }
         } else {
             ResponseEntity<List<Url>> byKeyword = urlService.findByKeyword(text);
-            System.out.println("filtering is " + byKeyword.getBody());
-            model.addAttribute("urlList", byKeyword.getBody());
+            if (byKeyword.getStatusCode().equals(HttpStatus.FOUND)) {
+                model.addAttribute("urlList", byKeyword.getBody());
+            } else model.addAttribute("urlList", new ArrayList<>());
         }
         return "html/main-page";
     }
 
-    @PostMapping("main-page")
-    public RedirectView shortUrl(@RequestParam(name = "url") String urlParam, HttpSession session) {
+    @PostMapping("/main-page")
+    public RedirectView shortUrl(@RequestParam(name = "url") String urlParam, HttpSession session, Model model) {
         UserDetails userDetails = (UserDetails) session.getAttribute("user");
         User user = userService.findByEmail(userDetails.getUsername()).getBody();
         UrlDto urlDto = new UrlDto(urlParam);
-        urlDto.getFullUrl();
-        urlService.saveAndShorten(urlDto, user);
-        return new RedirectView("main-page");
-    }
-
-    @GetMapping("/delete/{shortcut}/**")
-    public String deleteUser(@PathVariable("shortcut") String shortcut, HttpSession session) {
-        UserDetails user = (UserDetails) session.getAttribute("user");
-        urlService.deleteUrlByShortcut(shortcut, user.getUsername());
-       return "redirect:/main-page";
+        ResponseEntity<Url> urlResponseEntity = urlService.saveAndShorten(urlDto, user);
+        if (urlResponseEntity.getStatusCode().equals(HttpStatus.OK)) {
+            return new RedirectView("main-page");
+        } else {
+            model.addAttribute("info", "Some error occurred, please login again");
+            return new RedirectView("info");
+        }
     }
 }

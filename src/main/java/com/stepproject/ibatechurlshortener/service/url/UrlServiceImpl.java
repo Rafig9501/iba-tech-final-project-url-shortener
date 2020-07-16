@@ -1,7 +1,6 @@
 package com.stepproject.ibatechurlshortener.service.url;
 
 import com.stepproject.ibatechurlshortener.database.service.url.UrlDBService;
-import com.stepproject.ibatechurlshortener.database.service.url_history.UrlHistoryDBService;
 import com.stepproject.ibatechurlshortener.database.service.user.UserDBService;
 import com.stepproject.ibatechurlshortener.dto.UrlDto;
 import com.stepproject.ibatechurlshortener.model.Url;
@@ -41,7 +40,7 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public ResponseEntity<List<Url>> getAllByUser(User user) {
+    public ResponseEntity<List<Url>> getAllUrlsByUser(User user) {
         try {
             return new ResponseEntity<>(urlDBService.findAllByUser(user), HttpStatus.FOUND);
         } catch (Exception e) {
@@ -96,26 +95,16 @@ public class UrlServiceImpl implements UrlService {
         try {
             Optional<Url> urlOptional = urlDBService.getByShortcut(shortUrl);
             Optional<User> userOptional = userDBService.findByEmail(email);
-            if (urlOptional.isPresent() && userOptional.isPresent()) {
+            if (urlOptional.isPresent() && userOptional.isPresent() &&
+                    urlDBService.findAllByUser(userOptional.get()).contains(urlOptional.get())) {
                 User user = userOptional.get();
                 user.getUrls().remove(urlOptional.get());
                 userDBService.save(user);
                 return urlDBService.delete(urlOptional.get()) ? new ResponseEntity<>(new Url(), HttpStatus.OK)
                         : new ResponseEntity<>(new Url(), HttpStatus.FORBIDDEN);
-            }
-            else return new ResponseEntity<>(new Url(), HttpStatus.BAD_REQUEST);
+            } else return new ResponseEntity<>(new Url(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(new Url(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
-
-    @Override
-    public List<Url> userUrls(ResponseEntity<User> user) {
-        if (user.getStatusCode().equals(HttpStatus.FOUND)) {
-            return getAllByUser(user.getBody()).getBody();
-        } else {
-            return new ArrayList<>();
         }
     }
 }
