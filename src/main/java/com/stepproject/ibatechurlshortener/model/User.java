@@ -2,7 +2,6 @@ package com.stepproject.ibatechurlshortener.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.HashSet;

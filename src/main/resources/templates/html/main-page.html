@@ -67,9 +67,19 @@
                 </td>
                 <td th:text="${urlItem.getCount()}"><img class="full-url-arrow" src="../img/full-url-arrow.png"
                                                          alt="arrow"></td>
-                <td><a th:href="@{/history/} + ${urlItem.getShortcut()}">INFO</a></td>
-                <td><a th:href="@{/delete/{shortcut}(shortcut=${urlItem.getShortcut()})}">Delete</a></td>
-
+<!--                <td><a th:href="@{/history/} + ${urlItem.getShortcut()}">INFO</a></td>-->
+<!--                <td><a th:href="@{/delete/{shortcut}(shortcut=${urlItem.getShortcut()})}">Delete</a></td>-->
+                <td >
+                    <form th:action="@{/history/} + ${urlItem.getShortcut()}" method="get">
+                        <input type="submit" value="INFO" class="btn btn-danger" />
+                    </form>
+                </td>
+                <td >
+                    <form th:action="@{delete}" method="post">
+                        <input type="hidden" name="shortcut" th:value="${urlItem.getShortcut()}" />
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                    </form>
+                </td>
             </tr>
         </table>
     </div>

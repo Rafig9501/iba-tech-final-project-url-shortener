@@ -9,8 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,17 +53,5 @@ public class ShortcutController {
                 return "html/history";
             }
         } else return "html/main-page";
-    }
-
-    @GetMapping("/delete/{shortcut}/**")
-    public String deleteUser(@PathVariable("shortcut") String shortcut, HttpSession session, Model model) {
-        UserDetails user = (UserDetails) session.getAttribute("user");
-        ResponseEntity<Url> deleteUrlResponse = urlService.deleteUrlByShortcut(shortcut, user.getUsername());
-        if (deleteUrlResponse.getStatusCode().equals(HttpStatus.OK)) {
-            return "redirect:/main-page";
-        } else {
-            model.addAttribute("info", "Something went wrong, please login again");
-            return "/info";
-        }
     }
 }
