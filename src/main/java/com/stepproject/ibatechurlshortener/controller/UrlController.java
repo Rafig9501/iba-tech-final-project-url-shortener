@@ -70,4 +70,15 @@ public class UrlController {
             return new RedirectView("info");
         }
     }
+    @PostMapping("/delete")
+    private String deleteStudent(@RequestParam String shortcut, HttpSession session, Model model) {
+        UserDetails user = (UserDetails) session.getAttribute("user");
+        ResponseEntity<Url> deleteUrlResponse = urlService.deleteUrlByShortcut(shortcut, user.getUsername());
+        if (deleteUrlResponse.getStatusCode().equals(HttpStatus.OK)) {
+            return "redirect:/main-page";
+        } else {
+            model.addAttribute("info", "Something went wrong, please login again");
+            return "/info";
+        }
+    }
 }

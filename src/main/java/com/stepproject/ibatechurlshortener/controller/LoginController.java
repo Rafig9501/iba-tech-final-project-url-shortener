@@ -1,7 +1,6 @@
 package com.stepproject.ibatechurlshortener.controller;
 
 import com.stepproject.ibatechurlshortener.model.User;
-import com.stepproject.ibatechurlshortener.service.mail.MailServiceImpl;
 import com.stepproject.ibatechurlshortener.service.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
