@@ -9,9 +9,9 @@ import java.util.Set;
 @Service
 public interface UrlHistoryService {
 
-    void saveToUrlHistory(String shortcut, String IPAddress);
+    ResponseEntity<UrlHistory> saveToUrlHistory(String shortcut, String IPAddress);
 
-    Set<UrlHistory> getUrlHistoryByShortcut(String shortcut);
+    ResponseEntity<Set<UrlHistory>> getUrlHistoryByShortcut(String shortcut, String email);
 
-    String addNewHistory(String shortcut, String IPAddress);
+    ResponseEntity<String> addNewHistory(String shortcut, String IPAddress);
 }

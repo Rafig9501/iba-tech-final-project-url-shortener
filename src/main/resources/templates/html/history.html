@@ -41,10 +41,15 @@
             </thead>
             <tr>
                 <td th:text="${#temporals.format(url.getDate(), 'yyyy-MM-dd HH:mm:ss')}"></td>
-                <td th:text="${url.getShortcut()}"></td>
+                <td>
+                    <div style="width:250px;word-wrap:break-word;">
+                        <a th:href="'http://localhost:8080/short/'+${url.getShortcut()}"
+                           th:text="'http://localhost:8080/short/'+${url.getShortcut()}"></a>
+                    </div>
+                </td>
                 <td>
                     <div style="width:450px;word-wrap:break-word;">
-                        <a th:text="${url.getFull()}"></a>
+                        <a th:href="${url.getFull()}" th:text="${url.getFull()}"></a>
                     </div>
                 </td>
                 <td th:text="${url.getCount()}"></td>
