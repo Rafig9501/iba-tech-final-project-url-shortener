@@ -9,5 +9,4 @@ public class IbaTechUrlShortenerApplication {
     public static void main(String[] args) {
         SpringApplication.run(IbaTechUrlShortenerApplication.class, args);
     }
-
 }
