@@ -1,8 +1,8 @@
-package com.stepproject.ibatechurlshortener.social.controller;
+package com.stepproject.ibatechurlshortener.controller;
 
 import com.stepproject.ibatechurlshortener.configuration.ApplicationSecurityConfig;
 import com.stepproject.ibatechurlshortener.model.User_;
-import com.stepproject.ibatechurlshortener.social.service.FacebookService;
+import com.stepproject.ibatechurlshortener.service.facebook.FacebookService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,9 +1,8 @@
-package com.stepproject.ibatechurlshortener.social.service.impl;
+package com.stepproject.ibatechurlshortener.service.facebook;
 
 import com.stepproject.ibatechurlshortener.dto.UserDto;
 import com.stepproject.ibatechurlshortener.model.User_;
 import com.stepproject.ibatechurlshortener.service.user.UserService;
-import com.stepproject.ibatechurlshortener.social.service.FacebookService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +22,9 @@ public class FacebookServiceImpl implements FacebookService {
     @Value("${social.facebook.app-password}")
     private String facebookSecret;
 
+    @Value("${url.shortener.domain}")
+    private String domain;
+
     private final UserService userService;
 
     public FacebookServiceImpl(UserService userService) {
@@ -37,7 +39,7 @@ public class FacebookServiceImpl implements FacebookService {
     @Override
     public String facebookLogin() {
         OAuth2Parameters parameters = new OAuth2Parameters();
-        parameters.setRedirectUri("http://localhost:8080/facebook");
+        parameters.setRedirectUri(domain);
         parameters.setScope("public_profile,email");
         return createFacebookConnection().getOAuthOperations().buildAuthenticateUrl(parameters);
     }
@@ -46,7 +48,7 @@ public class FacebookServiceImpl implements FacebookService {
     public String getFacebookAccessToken(String code) {
         return createFacebookConnection()
                 .getOAuthOperations()
-                .exchangeForAccess(code, "http://localhost:8080/facebook", null)
+                .exchangeForAccess(code, domain, null)
                 .getAccessToken();
     }
 

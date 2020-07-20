@@ -14,7 +14,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Builder
 @AllArgsConstructor
-public class User_ extends BaseEntity{
+public class User_ extends BaseEntity {
 
     @NonNull
     @Column(name = "name")
