@@ -32,7 +32,7 @@ public class Url extends BaseEntity {
 
     @ManyToMany(mappedBy = "urls")
     @JsonBackReference
-    private Set<User> users = new HashSet<>();
+    private Set<User_> users = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "url_history",

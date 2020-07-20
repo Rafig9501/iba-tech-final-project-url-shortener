@@ -2,7 +2,7 @@ package com.stepproject.ibatechurlshortener.service.user;
 
 import com.stepproject.ibatechurlshortener.database.service.user.UserDBService;
 import com.stepproject.ibatechurlshortener.dto.UserDto;
-import com.stepproject.ibatechurlshortener.model.User;
+import com.stepproject.ibatechurlshortener.model.User_;
 import com.stepproject.ibatechurlshortener.service.mail.MailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,9 +31,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<User> findByEmail(String email) {
+    public ResponseEntity<User_> findByEmail(String email) {
         try {
-            Optional<User> user = userDBService.findByEmail(email);
+            Optional<User_> user = userDBService.findByEmail(email);
             return user.map(value -> new ResponseEntity<>(value, HttpStatus.FOUND)).orElseGet(() ->
                     new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
         } catch (Exception e) {
@@ -40,11 +42,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<User> save(UserDto userDto) {
+    public ResponseEntity<User_> save(UserDto userDto) {
         try {
-            User user = new User(userDto.getName(), userDto.getLastName(),
+            User_ user = new User_(userDto.getName(), userDto.getLastName(),
                     userDto.getEmail(), encoder.encode(userDto.getPassword()));
-            User saved = userDBService.save(user);
+            User_ saved = userDBService.save(user);
             return new ResponseEntity<>(saved, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,21 +56,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> userOptional = userDBService.findByEmail(email);
+        Optional<User_> userOptional = userDBService.findByEmail(email);
         if (!userOptional.isPresent()) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
         Set<GrantedAuthority> authorities = new HashSet<>();
         authorities.add(new SimpleGrantedAuthority("USER"));
-        User user = userOptional.get();
+        User_ user = userOptional.get();
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(), authorities);
     }
 
     @Override
-    public ResponseEntity<User> registerUser(UserDto userDto) {
+    public ResponseEntity<User_> registerUser(UserDto userDto) {
         try {
-            ResponseEntity<User> byEmail = findByEmail(userDto.getEmail());
+            ResponseEntity<User_> byEmail = findByEmail(userDto.getEmail());
             if (byEmail.getStatusCode().equals(HttpStatus.FOUND)) {
                 return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
             } else if (byEmail.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
@@ -83,9 +85,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<String> setUserActivationCode(String email) {
         String token = mailService.generateToken();
-        ResponseEntity<User> userByEmail = findByEmail(email);
+        ResponseEntity<User_> userByEmail = findByEmail(email);
         if (userByEmail.getStatusCode().equals(HttpStatus.FOUND)) {
-            User user = userByEmail.getBody();
+            User_ user = userByEmail.getBody();
             user.setActivationCode(token);
             userDBService.save(user);
             return new ResponseEntity<>(token, HttpStatus.OK);
@@ -94,21 +96,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<User> checkUserActivationCode(String activationCode) {
-        Optional<User> user = userDBService.getUserByActivationCode(activationCode);
+    public ResponseEntity<User_> checkUserActivationCode(String activationCode) {
+        Optional<User_> user = userDBService.getUserByActivationCode(activationCode);
         return user.map(u -> new ResponseEntity<>(u, HttpStatus.FOUND)).orElseGet(() ->
-                new ResponseEntity<>(new User(), HttpStatus.NO_CONTENT));
+                new ResponseEntity<>(new User_(), HttpStatus.NO_CONTENT));
     }
 
     @Override
-    public ResponseEntity<User> updatePassword(String email, String password) {
-        Optional<User> userOptional = userDBService.findByEmail(email);
+    public ResponseEntity<User_> updatePassword(String email, String password) {
+        Optional<User_> userOptional = userDBService.findByEmail(email);
         if (userOptional.isPresent()) {
-            User user = userOptional.get();
+            User_ user = userOptional.get();
             user.setPassword(encoder.encode(password));
             user.setActivationCode(null);
-            User saved = userDBService.save(user);
+            User_ saved = userDBService.save(user);
             return new ResponseEntity<>(saved, HttpStatus.OK);
-        } else return new ResponseEntity<>(new User(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } else return new ResponseEntity<>(new User_(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

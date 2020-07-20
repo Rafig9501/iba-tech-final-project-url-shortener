@@ -4,7 +4,7 @@ import com.stepproject.ibatechurlshortener.database.service.url.UrlDBService;
 import com.stepproject.ibatechurlshortener.database.service.user.UserDBService;
 import com.stepproject.ibatechurlshortener.dto.UrlDto;
 import com.stepproject.ibatechurlshortener.model.Url;
-import com.stepproject.ibatechurlshortener.model.User;
+import com.stepproject.ibatechurlshortener.model.User_;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -40,7 +40,7 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public ResponseEntity<List<Url>> getAllUrlsByUser(User user) {
+    public ResponseEntity<List<Url>> getAllUrlsByUser(User_ user) {
         try {
             return new ResponseEntity<>(urlDBService.findAllByUser(user), HttpStatus.FOUND);
         } catch (Exception e) {
@@ -61,7 +61,7 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public ResponseEntity<Url> saveAndShorten(UrlDto urlDto, User user) {
+    public ResponseEntity<Url> saveAndShorten(UrlDto urlDto, User_ user) {
         try {
             Url url = urlShortenerService.convertToShortUrl(urlDto);
             while (urlDBService.getByShortcut(url.getShortcut()).isPresent()) {
@@ -94,10 +94,10 @@ public class UrlServiceImpl implements UrlService {
     public ResponseEntity<Url> deleteUrlByShortcut(String shortUrl, String email) {
         try {
             Optional<Url> urlOptional = urlDBService.getByShortcut(shortUrl);
-            Optional<User> userOptional = userDBService.findByEmail(email);
+            Optional<User_> userOptional = userDBService.findByEmail(email);
             if (urlOptional.isPresent() && userOptional.isPresent() &&
                     urlDBService.findAllByUser(userOptional.get()).contains(urlOptional.get())) {
-                User user = userOptional.get();
+                User_ user = userOptional.get();
                 user.getUrls().remove(urlOptional.get());
                 userDBService.save(user);
                 return urlDBService.delete(urlOptional.get()) ? new ResponseEntity<>(new Url(), HttpStatus.OK)

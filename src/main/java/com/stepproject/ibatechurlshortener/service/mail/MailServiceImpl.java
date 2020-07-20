@@ -19,6 +19,9 @@ public class MailServiceImpl implements MailService {
     @Value("${spring.mail.username}")
     private String username;
 
+    @Value("${url.shortener.domain}")
+    private String domain;
+
     @Override
     public boolean send(String emailTo, String activationCode) {
         try {
@@ -26,8 +29,8 @@ public class MailServiceImpl implements MailService {
             mailMessage.setFrom(username);
             mailMessage.setTo(emailTo);
             mailMessage.setSubject("Reset Password");
-            mailMessage.setText("Please click to that link for resetting password\n" +
-                    "https://urlshortcut.herokuapp.com/forgot-password/token/" + activationCode);
+            mailMessage.setText("Please click to that link for resetting password\n" + domain +
+                    "forgot-password/token/" + activationCode);
 
             mailSender.send(mailMessage);
             return true;

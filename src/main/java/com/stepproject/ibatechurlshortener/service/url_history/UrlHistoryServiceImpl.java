@@ -5,7 +5,7 @@ import com.stepproject.ibatechurlshortener.database.service.url_history.UrlHisto
 import com.stepproject.ibatechurlshortener.database.service.user.UserDBService;
 import com.stepproject.ibatechurlshortener.model.Url;
 import com.stepproject.ibatechurlshortener.model.UrlHistory;
-import com.stepproject.ibatechurlshortener.model.User;
+import com.stepproject.ibatechurlshortener.model.User_;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -50,7 +50,7 @@ public class UrlHistoryServiceImpl implements UrlHistoryService {
 
     @Override
     public ResponseEntity<Set<UrlHistory>> getUrlHistoryByShortcut(String shortcut, String email) {
-        Optional<User> user = userDBService.findByEmail(email);
+        Optional<User_> user = userDBService.findByEmail(email);
         Optional<Url> url = urlDBService.getByShortcut(shortcut);
         if (user.isPresent() && url.isPresent() && urlDBService.findAllByUser(user.get()).contains(url.get())) {
             return new ResponseEntity<>(urlHistoryDBService.findUrlHistory(url.get()), HttpStatus.FOUND);
