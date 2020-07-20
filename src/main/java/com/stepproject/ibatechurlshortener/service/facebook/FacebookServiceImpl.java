@@ -39,7 +39,7 @@ public class FacebookServiceImpl implements FacebookService {
     @Override
     public String facebookLogin() {
         OAuth2Parameters parameters = new OAuth2Parameters();
-        parameters.setRedirectUri(domain);
+        parameters.setRedirectUri(domain + "/facebook");
         parameters.setScope("public_profile,email");
         return createFacebookConnection().getOAuthOperations().buildAuthenticateUrl(parameters);
     }
@@ -48,7 +48,7 @@ public class FacebookServiceImpl implements FacebookService {
     public String getFacebookAccessToken(String code) {
         return createFacebookConnection()
                 .getOAuthOperations()
-                .exchangeForAccess(code, domain, null)
+                .exchangeForAccess(code, domain + "/facebook", null)
                 .getAccessToken();
     }
 
