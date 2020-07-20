@@ -41,7 +41,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers
                         ("/registration/**",
-                        "facebook/**",
+                        "/facebook/**",
                         "/short/**",
                         "/js/**",
                         "/css/**",
