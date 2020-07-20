@@ -1,6 +1,6 @@
 package com.stepproject.ibatechurlshortener.controller;
 
-import com.stepproject.ibatechurlshortener.model.User;
+import com.stepproject.ibatechurlshortener.model.User_;
 import com.stepproject.ibatechurlshortener.service.mail.MailServiceImpl;
 import com.stepproject.ibatechurlshortener.service.user.UserService;
 import org.springframework.http.HttpStatus;
@@ -45,7 +45,7 @@ public class ForgotPasswordController {
 
     @GetMapping("/token/{activationCode}")
     public RedirectView getActivationCode(@PathVariable String activationCode, Model model) {
-        ResponseEntity<User> user = userService.checkUserActivationCode(activationCode);
+        ResponseEntity<User_> user = userService.checkUserActivationCode(activationCode);
         if (user.getStatusCode().equals(HttpStatus.FOUND)) {
             model.addAttribute("email", user.getBody().getEmail());
             return new RedirectView("/forgot-password/password-reset");
@@ -63,7 +63,7 @@ public class ForgotPasswordController {
 
     @PostMapping("password-reset/take")
     public String changePassword(String password, Model model, HttpSession session) {
-        ResponseEntity<User> email = userService.updatePassword(String.valueOf(session.getAttribute("email")), password);
+        ResponseEntity<User_> email = userService.updatePassword(String.valueOf(session.getAttribute("email")), password);
         if (email.getStatusCode().equals(HttpStatus.OK)) {
             model.addAttribute("info", "PASSWORD HAS BEEN CHANGED");
         } else {

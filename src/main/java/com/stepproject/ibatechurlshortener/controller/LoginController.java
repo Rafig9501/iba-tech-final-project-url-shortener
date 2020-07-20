@@ -1,6 +1,6 @@
 package com.stepproject.ibatechurlshortener.controller;
 
-import com.stepproject.ibatechurlshortener.model.User;
+import com.stepproject.ibatechurlshortener.model.User_;
 import com.stepproject.ibatechurlshortener.service.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +30,7 @@ public class LoginController {
     public String getStarted(Authentication authentication, Model model, HttpSession session) {
         UserDetails user = (UserDetails) authentication.getPrincipal();
         session.setAttribute("user", user);
-        ResponseEntity<User> byEmail = userService.findByEmail(user.getUsername());
+        ResponseEntity<User_> byEmail = userService.findByEmail(user.getUsername());
         if (byEmail.getStatusCode().equals(HttpStatus.FOUND)) {
             String name = byEmail.getBody().getName();
             String lastName = byEmail.getBody().getLastName();

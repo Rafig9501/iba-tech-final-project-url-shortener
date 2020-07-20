@@ -3,7 +3,7 @@ package com.stepproject.ibatechurlshortener.database.service.url;
 import com.stepproject.ibatechurlshortener.database.repository.UrlRepository;
 import com.stepproject.ibatechurlshortener.database.service.CrudService;
 import com.stepproject.ibatechurlshortener.model.Url;
-import com.stepproject.ibatechurlshortener.model.User;
+import com.stepproject.ibatechurlshortener.model.User_;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class UrlDBService implements CrudService<Url> {
         }
     }
 
-    public List<Url> findAllByUser(User user) {
+    public List<Url> findAllByUser(User_ user) {
         try {
             return urlRepository.findUrlByUsers(user);
         } catch (Exception e) {

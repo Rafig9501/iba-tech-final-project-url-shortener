@@ -2,7 +2,7 @@ package com.stepproject.ibatechurlshortener.database.service.user;
 
 import com.stepproject.ibatechurlshortener.database.repository.UserRepository;
 import com.stepproject.ibatechurlshortener.database.service.CrudService;
-import com.stepproject.ibatechurlshortener.model.User;
+import com.stepproject.ibatechurlshortener.model.User_;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserDBService implements CrudService<User> {
+public class UserDBService implements CrudService<User_> {
 
     private final UserRepository userRepository;
 
@@ -19,16 +19,16 @@ public class UserDBService implements CrudService<User> {
     }
 
     @Override
-    public User save(User user) {
+    public User_ save(User_ user) {
         try {
             return userRepository.save(user);
         } catch (Exception e) {
-            return new User();
+            return new User_();
         }
     }
 
     @Override
-    public Optional<User> getById(Long id) {
+    public Optional<User_> getById(Long id) {
         try {
             return userRepository.findById(id);
         } catch (Exception e) {
@@ -37,7 +37,7 @@ public class UserDBService implements CrudService<User> {
     }
 
     @Override
-    public List<User> getAll() {
+    public List<User_> getAll() {
         try {
             return userRepository.findAll();
         } catch (Exception e) {
@@ -46,7 +46,7 @@ public class UserDBService implements CrudService<User> {
     }
 
     @Override
-    public boolean delete(User user) {
+    public boolean delete(User_ user) {
         try {
             userRepository.delete(user);
             return true;
@@ -55,7 +55,7 @@ public class UserDBService implements CrudService<User> {
         }
     }
 
-    public Optional<User> findByEmail(String email) {
+    public Optional<User_> findByEmail(String email) {
         try {
             return userRepository.findByEmail(email);
         } catch (Exception e) {
@@ -63,7 +63,7 @@ public class UserDBService implements CrudService<User> {
         }
     }
 
-    public Optional<User> getUserByActivationCode(String activationCode) {
+    public Optional<User_> getUserByActivationCode(String activationCode) {
         try {
             return userRepository.findUserByActivationCode(activationCode);
         } catch (Exception e) {

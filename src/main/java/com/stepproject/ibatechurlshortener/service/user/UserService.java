@@ -1,7 +1,7 @@
 package com.stepproject.ibatechurlshortener.service.user;
 
 import com.stepproject.ibatechurlshortener.dto.UserDto;
-import com.stepproject.ibatechurlshortener.model.User;
+import com.stepproject.ibatechurlshortener.model.User_;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService extends UserDetailsService {
 
-    ResponseEntity<User> findByEmail(String email);
+    ResponseEntity<User_> findByEmail(String email);
 
-    ResponseEntity<User> save(UserDto userDto);
+    ResponseEntity<User_> save(UserDto userDto);
 
-    ResponseEntity<User> registerUser(UserDto userDto);
+    ResponseEntity<User_> registerUser(UserDto userDto);
 
     ResponseEntity<String> setUserActivationCode(String email);
 
-    ResponseEntity<User> checkUserActivationCode(String token);
+    ResponseEntity<User_> checkUserActivationCode(String token);
 
-    ResponseEntity<User> updatePassword(String email, String password);
+    ResponseEntity<User_> updatePassword(String email, String password);
 }

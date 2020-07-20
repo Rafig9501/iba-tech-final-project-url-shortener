@@ -1,7 +1,7 @@
 package com.stepproject.ibatechurlshortener.controller;
 
 import com.stepproject.ibatechurlshortener.dto.UserDto;
-import com.stepproject.ibatechurlshortener.model.User;
+import com.stepproject.ibatechurlshortener.model.User_;
 import com.stepproject.ibatechurlshortener.service.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ public class RegistrationController {
 
     @PostMapping("registration/info")
     public String takingParams(UserDto user, Model model) {
-        ResponseEntity<User> response = userService.registerUser(user);
+        ResponseEntity<User_> response = userService.registerUser(user);
         if (response.getStatusCode().equals(HttpStatus.OK)) {
             model.addAttribute("info", "Successfully registered");
         } else {

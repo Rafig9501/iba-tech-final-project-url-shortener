@@ -2,7 +2,7 @@ package com.stepproject.ibatechurlshortener.controller;
 
 import com.stepproject.ibatechurlshortener.dto.UrlDto;
 import com.stepproject.ibatechurlshortener.model.Url;
-import com.stepproject.ibatechurlshortener.model.User;
+import com.stepproject.ibatechurlshortener.model.User_;
 import com.stepproject.ibatechurlshortener.service.url.UrlService;
 import com.stepproject.ibatechurlshortener.service.user.UserService;
 import lombok.extern.log4j.Log4j2;
@@ -35,7 +35,7 @@ public class UrlController {
     @GetMapping("/main-page")
     public String main(Model model, HttpSession session, String text) {
         UserDetails user1 = (UserDetails) session.getAttribute("user");
-        ResponseEntity<User> byEmail = userService.findByEmail(user1.getUsername());
+        ResponseEntity<User_> byEmail = userService.findByEmail(user1.getUsername());
         if (byEmail.getStatusCode().equals(HttpStatus.FOUND)) {
             String name = byEmail.getBody().getName();
             String lastName = byEmail.getBody().getLastName();
@@ -60,7 +60,7 @@ public class UrlController {
     @PostMapping("/main-page")
     public RedirectView shortUrl(@RequestParam(name = "url") String urlParam, HttpSession session, Model model) {
         UserDetails userDetails = (UserDetails) session.getAttribute("user");
-        User user = userService.findByEmail(userDetails.getUsername()).getBody();
+        User_ user = userService.findByEmail(userDetails.getUsername()).getBody();
         UrlDto urlDto = new UrlDto(urlParam);
         ResponseEntity<Url> urlResponseEntity = urlService.saveAndShorten(urlDto, user);
         if (urlResponseEntity.getStatusCode().equals(HttpStatus.OK)) {

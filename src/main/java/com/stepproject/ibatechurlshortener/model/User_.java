@@ -12,7 +12,9 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class User extends BaseEntity{
+@Builder
+@AllArgsConstructor
+public class User_ extends BaseEntity{
 
     @NonNull
     @Column(name = "name")
