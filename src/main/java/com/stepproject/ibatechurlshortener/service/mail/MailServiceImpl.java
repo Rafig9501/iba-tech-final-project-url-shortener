@@ -30,7 +30,7 @@ public class MailServiceImpl implements MailService {
             mailMessage.setTo(emailTo);
             mailMessage.setSubject("Reset Password");
             mailMessage.setText("Please click to that link for resetting password\n" + domain +
-                    "forgot-password/token/" + activationCode);
+                    "/forgot-password/token/" + activationCode);
 
             mailSender.send(mailMessage);
             return true;
